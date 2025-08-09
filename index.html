@@ -126,27 +126,17 @@
             pointLight.position.set(5, 5, 5);
             scene.add(pointLight);
 
-            const isMobile = window.innerWidth <= 768;
-
             const holoMaterial = new THREE.MeshStandardMaterial({
                 color: 0x238636,
                 transparent: true,
                 opacity: 0.15,
                 wireframe: true
             });
-            const globeSize = isMobile ? 1.0 : 1.2; // Smaller globe on mobile
-            const centralSphere = new THREE.Mesh(new THREE.IcosahedronGeometry(globeSize, 4), holoMaterial);
+            const centralSphere = new THREE.Mesh(new THREE.IcosahedronGeometry(1, 4), holoMaterial); // Start with a base size
             scene.add(centralSphere);
 
             const pillarMeshes = [];
             
-            const pillarDistance = isMobile ? 1.7 : 2.2; 
-            
-            const pillarPositions = [
-                new THREE.Vector3(0, pillarDistance, 0), new THREE.Vector3(pillarDistance, 0, 0),
-                new THREE.Vector3(0, -pillarDistance, 0), new THREE.Vector3(-pillarDistance, 0, 0)
-            ];
-
             const pillarColors = [0x8a7905, 0x4caf50, 0x0077b6, 0xffa500];
             const pillarPillarNames = ["Immutable Traceability & Integrity", "Empowering Artisanal Communities", "Decentralized Governance & Community Ownership", "Sustainable & Ethical Global Standard"];
             const pillarInfos = {
@@ -170,6 +160,26 @@
                 const scale = 0.6 / maxDim;
                 return points.map(p => p.sub(center).multiplyScalar(scale));
             }
+
+            // --- RESPONSIVE LAYOUT FUNCTION ---
+            function updateLayout() {
+                const isMobile = window.innerWidth <= 768;
+                const pillarDistance = isMobile ? 1.7 : 2.2;
+                const globeSize = isMobile ? 1.0 : 1.2;
+
+                centralSphere.scale.set(globeSize, globeSize, globeSize);
+
+                const pillarPositions = [
+                    new THREE.Vector3(0, pillarDistance, 0), new THREE.Vector3(pillarDistance, 0, 0),
+                    new THREE.Vector3(0, -pillarDistance, 0), new THREE.Vector3(-pillarDistance, 0, 0)
+                ];
+
+                pillarMeshes.forEach((mesh, i) => {
+                    mesh.position.copy(pillarPositions[i]);
+                });
+            }
+
+
             for (let i = 0; i < 4; i++) {
                 const group = new THREE.Group();
                 const normalizedPoints = normalizeAndScale(constellationShapes[i]);
@@ -182,11 +192,12 @@
                 const pointsGeometry = new THREE.BufferGeometry().setFromPoints(normalizedPoints);
                 const constellationPoints = new THREE.Points(pointsGeometry, pointsMaterial);
                 group.add(constellationPoints);
-                group.position.copy(pillarPositions[i]);
                 group.name = `pillar-${pillarPillarNames[i]}`;
                 scene.add(group);
                 pillarMeshes.push(group);
             }
+            
+            updateLayout(); // Initial layout setup
             
             const raycaster = new THREE.Raycaster();
             const mouse = new THREE.Vector2();
@@ -247,7 +258,7 @@
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
-                // We might need to reload or re-calculate pillar positions on resize for a truly dynamic responsive experience
+                updateLayout(); // Update layout on resize
             });
             let isDragging = false;
             let previousMousePosition = { x: 0, y: 0 };
@@ -270,12 +281,4 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
+```
