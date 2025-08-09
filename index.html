@@ -14,36 +14,22 @@
             margin: 0;
             overflow: hidden;
             display: flex;
-            flex-direction: column; /* Arrange items vertically */
+            justify-content: center;
+            align-items: center;
             height: 100vh;
             background-color: #0d1117;
             color: #c9d1d9;
         }
         #container {
-            flex-grow: 1; /* Allow the 3D container to fill available space */
             position: relative;
             width: 100vw;
+            height: 100vh;
         }
         canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            display: block;
             touch-action: none;
         }
-        .info-box {
-            /* This is now the bottom UI bar */
-            flex-shrink: 0; /* Prevent the bar from shrinking */
-            background: #12181e; /* Solid background */
-            border-top: 1px solid #30363d;
-            padding: 1rem;
-            padding-bottom: calc(1rem + env(safe-area-inset-bottom));
-            width: 100%;
-            text-align: center;
-            z-index: 10;
-        }
-        .pillar-info-box {
+        .overlay-box {
             position: absolute;
             background: rgba(18, 24, 30, 0.9);
             border: 1px solid #30363d;
@@ -62,45 +48,49 @@
             pointer-events: auto;
             overflow-y: auto;
         }
-         .pillar-info-box.hidden {
+         .overlay-box.hidden {
             opacity: 0;
             visibility: hidden;
         }
-        .pillar-info-box h3 {
+        .overlay-box h3 {
             font-size: 1.25rem;
             font-weight: 700;
             margin-bottom: 0.75rem;
             color: #ffffff;
         }
-        .pillar-info-box p {
+        .overlay-box p {
             font-size: 1rem;
             line-height: 1.6;
+        }
+        .overlay-box button {
+             background-color: #4dd8ff;
+             color: #0d1117;
+             padding: 0.5rem 1rem;
+             border-radius: 8px;
+             font-weight: 600;
+             cursor: pointer;
+             display: block;
+             margin: 1.5rem auto 0;
         }
     </style>
 </head>
 <body>
-    <div id="container"></div> <!-- 3D Scene Container -->
-    
-    <div id="main-info-box" class="info-box"> <!-- UI Bar Container -->
-        <h1 class="text-base font-bold">EthicalGold (EGT)</h1>
-        <div id="trace-toggle-container" class="text-center mt-2">
-            <button id="trace-toggle-button" class="bg-green-600 hover:bg-green-700 p-2 rounded-lg text-white font-bold">Ethical Sourcing Query</button>
+    <div id="container">
+        <!-- This pop-up will now be used for all info displays -->
+        <div id="overlay-box" class="overlay-box hidden">
+            <h3 id="overlay-title"></h3>
+            <p id="overlay-text"></p>
+            <div id="overlay-button-container"></div>
         </div>
-    </div>
-
-    <!-- This pop-up will now appear over the 3D scene only -->
-    <div id="pillar-info-display" class="pillar-info-box hidden">
-        <h3 id="pillar-info-title"></h3>
-        <p id="pillar-info-text"></p>
     </div>
 
     <script>
         window.onload = function() {
             const container = document.getElementById('container');
             const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setSize(window.innerWidth, window.innerHeight);
             container.appendChild(renderer.domElement);
 
             camera.position.z = 5;
@@ -110,9 +100,7 @@
                 const starGeometry = new THREE.BufferGeometry();
                 const starCount = 5000;
                 const posArray = new Float32Array(starCount * 3);
-                for(let i = 0; i < starCount * 3; i++) {
-                    posArray[i] = (Math.random() - 0.5) * 2000;
-                }
+                for(let i = 0; i < starCount * 3; i++) { posArray[i] = (Math.random() - 0.5) * 2000; }
                 starGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
                 const starMaterial = new THREE.PointsMaterial({ size: 0.7, color: 0xffffff });
                 starField = new THREE.Points(starGeometry, starMaterial);
@@ -127,16 +115,15 @@
             scene.add(pointLight);
 
             const holoMaterial = new THREE.MeshStandardMaterial({
-                color: 0x238636,
+                color: 0x4dd8ff,
                 transparent: true,
                 opacity: 0.15,
                 wireframe: true
             });
-            const centralSphere = new THREE.Mesh(new THREE.IcosahedronGeometry(1, 4), holoMaterial);
+            const centralSphere = new THREE.Mesh(new THREE.IcosahedronGeometry(1.2, 4), holoMaterial);
             scene.add(centralSphere);
 
             const pillarMeshes = [];
-            
             const pillarColors = [0x8a7905, 0x4caf50, 0x0077b6, 0xffa500];
             const pillarPillarNames = ["Immutable Traceability & Integrity", "Empowering Artisanal Communities", "Decentralized Governance & Community Ownership", "Sustainable & Ethical Global Standard"];
             const pillarInfos = {
@@ -162,20 +149,15 @@
             }
 
             function updateLayout() {
-                const isMobile = container.clientWidth <= 768;
-                const pillarDistance = isMobile ? 1.7 : 2.2;
+                const isMobile = window.innerWidth <= 768;
+                const pillarDistance = isMobile ? 1.9 : 2.4;
                 const globeSize = isMobile ? 1.0 : 1.2;
-
                 centralSphere.scale.set(globeSize, globeSize, globeSize);
-
                 const pillarPositions = [
                     new THREE.Vector3(0, pillarDistance, 0), new THREE.Vector3(pillarDistance, 0, 0),
                     new THREE.Vector3(0, -pillarDistance, 0), new THREE.Vector3(-pillarDistance, 0, 0)
                 ];
-
-                pillarMeshes.forEach((mesh, i) => {
-                    mesh.position.copy(pillarPositions[i]);
-                });
+                pillarMeshes.forEach((mesh, i) => { mesh.position.copy(pillarPositions[i]); });
             }
 
             for (let i = 0; i < 4; i++) {
@@ -199,50 +181,114 @@
             
             const raycaster = new THREE.Raycaster();
             const mouse = new THREE.Vector2();
-            let currentPillar = null;
+            let currentSelection = null;
 
-            const pillarInfoBox = document.getElementById('pillar-info-display');
-            const pillarInfoTitle = document.getElementById('pillar-info-title');
-            const pillarInfoText = document.getElementById('pillar-info-text');
-
-            // The pop-up box now appears inside the main 3D container
-            container.appendChild(pillarInfoBox);
+            const overlayBox = document.getElementById('overlay-box');
+            const overlayTitle = document.getElementById('overlay-title');
+            const overlayText = document.getElementById('overlay-text');
+            const overlayButtonContainer = document.getElementById('overlay-button-container');
 
             function onMouseClick(event) {
-                if (!pillarInfoBox.classList.contains('hidden')) {
-                     currentPillar = null;
-                     pillarInfoBox.classList.add('hidden');
+                if (!overlayBox.classList.contains('hidden')) {
+                     currentSelection = null;
+                     overlayBox.classList.add('hidden');
                      pillarMeshes.forEach(meshGroup => meshGroup.scale.set(1, 1, 1));
                      return;
                 }
 
-                mouse.x = (event.clientX / container.clientWidth) * 2 - 1;
-                mouse.y = - (event.clientY / container.clientHeight) * 2 + 1;
+                mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
                 raycaster.setFromCamera(mouse, camera);
-                const intersects = raycaster.intersectObjects(pillarMeshes, true);
+                
+                const pillarIntersects = raycaster.intersectObjects(pillarMeshes, true);
+                const sphereIntersect = raycaster.intersectObject(centralSphere);
 
-                if (intersects.length > 0) {
-                    const clickedPillar = intersects[0].object.parent;
-                    currentPillar = clickedPillar;
+                if (pillarIntersects.length > 0) {
+                    const clickedPillar = pillarIntersects[0].object.parent;
+                    currentSelection = clickedPillar;
                     const pillarName = clickedPillar.name.split('-')[1];
                     
-                    pillarInfoTitle.textContent = pillarName;
-                    pillarInfoText.textContent = pillarInfos[pillarName];
-                    pillarInfoBox.classList.remove('hidden');
+                    overlayTitle.textContent = pillarName;
+                    overlayText.textContent = pillarInfos[pillarName];
+                    overlayButtonContainer.innerHTML = ''; // No button for pillars
+                    overlayBox.classList.remove('hidden');
+
+                } else if (sphereIntersect.length > 0) {
+                    currentSelection = centralSphere;
+                    overlayTitle.textContent = "Ethical Sourcing Query";
+                    overlayText.textContent = "Click the button below to simulate a molecular scan and verify the traceability of a gold asset.";
+                    overlayButtonContainer.innerHTML = '<button id="scan-button">Scan Molecular Tag</button>';
+                    overlayBox.classList.remove('hidden');
+
+                    document.getElementById('scan-button').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        triggerMolecularScan();
+                    });
                 }
 
                 pillarMeshes.forEach(meshGroup => meshGroup.scale.set(1, 1, 1));
-                if(currentPillar) {
-                    currentPillar.scale.set(1.5, 1.5, 1.5);
+                if(currentSelection && pillarMeshes.includes(currentSelection)) {
+                    currentSelection.scale.set(1.5, 1.5, 1.5);
                 }
             }
-            container.addEventListener('click', onMouseClick, false); // Listen for clicks on the container
+            container.addEventListener('click', onMouseClick, false);
 
-            const traceToggleButton = document.getElementById('trace-toggle-button');
-            traceToggleButton.addEventListener('click', (event) => {
-                event.stopPropagation();
-                alert("Ethical Sourcing Query coming soon!");
-            });
+            function triggerMolecularScan() {
+                overlayTitle.textContent = "Scanning...";
+                overlayText.textContent = "";
+                overlayButtonContainer.innerHTML = "";
+
+                const dummyScans = [{id: "EGT-A1B2C3D4", success: true}, {id: "EGT-X9Y8Z7W6", success: false}];
+                const randomScan = dummyScans[Math.floor(Math.random() * dummyScans.length)];
+
+                setTimeout(() => {
+                    if (randomScan.success) {
+                        geminiTrace(randomScan.id);
+                    } else {
+                        overlayTitle.textContent = "Scan Failed";
+                        overlayText.textContent = "The molecular scan failed to verify the tag. This may be due to a faulty scan or an unverified asset. Click anywhere to close.";
+                    }
+                }, 1000);
+            }
+
+            const geminiTrace = async (goldId) => {
+                overlayTitle.textContent = `Querying for ${goldId}...`;
+                overlayText.textContent = "";
+
+                const dummyData = {
+                    "EGT-A1B2C3D4": { mine: "Obuasi Gold Mine, Ghana", ethical_certifications: "Fairmined, PARC Compliant", journey: "Verified by molecular tag scan (2025) -> Refined at a certified refinery in Accra -> Transported to secure vault in Johannesburg -> Tokenized on EGT blockchain." },
+                    "EGT-X9Y8Z7W6": { mine: "Tanzania Gold Mine, Tanzania", ethical_certifications: "No known certifications", journey: "Verified by molecular tag scan (2024) -> Refined locally -> Illicitly traded -> Unknown origin." }
+                };
+
+                const data = dummyData[goldId];
+                if (data) {
+                    const prompt = `For Gold Bar ID ${goldId}, provide a detailed, easy-to-read summary. Emphasize integrity and traceability with clear headings and bullet points. Do not give investment advice. Focus on the gold's journey as a consumptive asset. Highlight molecular scan and blockchain verification. If data is poor, state risks factually. Data: Mine: ${data.mine}, Certs: ${data.ethical_certifications}, Journey: ${data.journey}`;
+                    
+                    try {
+                        let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+                        const payload = { contents: chatHistory };
+                        const apiKey = ""; 
+                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                        const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+
+                        if (!response.ok) throw new Error(`API call failed with status: ${response.status}`);
+                        const result = await response.json();
+
+                        if (result.candidates && result.candidates[0]?.content?.parts[0]) {
+                            const text = result.candidates[0].content.parts[0].text;
+                            overlayTitle.textContent = `Summary: ${goldId}`;
+                            overlayText.textContent = text;
+                        } else {
+                            throw new Error('Invalid API response');
+                        }
+                    } catch (error) {
+                         console.error('API Error:', error);
+                         overlayTitle.textContent = "API Error";
+                         overlayText.textContent = "Could not retrieve sourcing information. Please try again later. Click anywhere to close.";
+                    }
+                }
+            };
+
 
             function animate() {
                 requestAnimationFrame(animate);
@@ -250,15 +296,14 @@
                 centralSphere.rotation.y += 0.005;
                 if (starField) starField.rotation.y -= 0.0002;
                 pillarMeshes.forEach((mesh, i) => mesh.rotation.y += 0.002 + (i * 0.0005));
-                
                 renderer.render(scene, camera);
             }
             animate();
             
             window.addEventListener('resize', () => {
-                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
-                renderer.setSize(container.clientWidth, container.clientHeight);
+                renderer.setSize(window.innerWidth, window.innerHeight);
                 updateLayout();
             });
             let isDragging = false;
@@ -277,7 +322,7 @@
             function onDocumentMouseUp() { isDragging = false; }
             container.addEventListener('mousedown', onDocumentMouseDown, false);
             container.addEventListener('mousemove', onDocumentMouseMove, false);
-            window.addEventListener('mouseup', onDocumentMouseUp, false); // Listen on window for mouseup
+            window.addEventListener('mouseup', onDocumentMouseUp, false);
         };
     </script>
 </body>
