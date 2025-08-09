@@ -31,14 +31,13 @@
         }
         .overlay-box {
             position: absolute;
-            background: rgba(18, 24, 30, 0.9);
+            background: rgba(18, 24, 30, 0.8);
             border: 1px solid #30363d;
-            padding: 1.5rem;
+            padding: 1.25rem;
             border-radius: 12px;
-            text-align: left;
             backdrop-filter: blur(8px);
             width: 90%;
-            max-width: 450px;
+            max-width: 400px;
             max-height: 80vh;
             top: 50%;
             left: 50%;
@@ -120,31 +119,47 @@
                 opacity: 0.15,
                 wireframe: true
             });
-            const centralSphere = new THREE.Mesh(new THREE.IcosahedronGeometry(1.2, 4), holoMaterial);
+            const centralSphere = new THREE.Mesh(new THREE.IcosahedronGeometry(1, 4), holoMaterial);
+            centralSphere.name = "central-sphere";
             scene.add(centralSphere);
 
-            const pillarMeshes = [];
-            const pillarColors = [0x8a7905, 0x4caf50, 0x0077b6, 0xffa500];
-            const pillarPillarNames = ["Immutable Traceability & Integrity", "Empowering Artisanal Communities", "Decentralized Governance & Community Ownership", "Sustainable & Ethical Global Standard"];
-            const pillarInfos = {
-                "Immutable Traceability & Integrity": "Our authentication platform, EthicalGold, uses a dual QR code and NFC chip on a secure, tamper-evident physical tag. This tag serves as a secure bridge to an immutable blockchain ledger, providing an unchangeable and transparent record of every gram of gold from its origin. This ensures the integrity of the supply chain and provides buyers with indisputable proof of ethical sourcing, making EGT the standard for trustworthy gold.",
-                "Empowering Artisanal Communities": "A core function of EthicalGold is to directly uplift artisanal miners. Through secure and fair payment rails, and by providing essential tools and training, EGT empowers these communities economically, fostering social impact that adds intrinsic value to the gold and the token itself. Our tokenomics incentivize usage, not long-term holding, ensuring the platform's utility is the primary focus. The DApp includes features like 'Miner Spotlights,' where the community can see the faces and stories of the miners their investment is helping.",
-                "Decentralized Governance & Community Ownership": "The EthicalGold project is built on a foundation of decentralization, with control and decision-making gradually transitioning to the community through a DAO. This ensures long-term sustainability, community alignment, and provides token holders with a direct voice in the project's evolution, securing the future of their investment. We will not make promises about the project's future value based on the team's efforts, as the value will be a byproduct of the network's adoption and usage.",
-                "Sustainable & Ethical Global Standard": "EthicalGold is committed to responsible practices that benefit both people and the planet. By championing ethical sourcing, EGT aims to become the global standard for responsible gold, integrating with a broader ecosystem of ethical goods and positioning the token as a leader in sustainable commerce. We will only source gold from partners who adhere to international standards and the African Union's Pan-African ResourceReporting Code (PARC)."
+            const interactiveElements = [];
+            const elementInfos = {
+                "Immutable Traceability & Integrity": {
+                    type: 'pillar',
+                    text: "Our authentication platform, EthicalGold, uses a dual QR code and NFC chip on a secure, tamper-evident physical tag. This tag serves as a secure bridge to an immutable blockchain ledger, providing an unchangeable and transparent record of every gram of gold from its origin. This ensures the integrity of the supply chain and provides buyers with indisputable proof of ethical sourcing, making EGT the standard for trustworthy gold."
+                },
+                "Empowering Artisanal Communities": {
+                    type: 'pillar',
+                    text: "A core function of EthicalGold is to directly uplift artisanal miners. Through secure and fair payment rails, and by providing essential tools and training, EGT empowers these communities economically, fostering social impact that adds intrinsic value to the gold and the token itself. Our tokenomics incentivize usage, not long-term holding, ensuring the platform's utility is the primary focus. The DApp includes features like 'Miner Spotlights,' where the community can see the faces and stories of the miners their investment is helping."
+                },
+                "Decentralized Governance & Community Ownership": {
+                    type: 'pillar',
+                    text: "The EthicalGold project is built on a foundation of decentralization, with control and decision-making gradually transitioning to the community through a DAO. This ensures long-term sustainability, community alignment, and provides token holders with a direct voice in the project's evolution, securing the future of their investment. We will not make promises about the project's future value based on the team's efforts, as the value will be a byproduct of the network's adoption and usage."
+                },
+                "Sustainable & Ethical Global Standard": {
+                    type: 'pillar',
+                    text: "EthicalGold is committed to responsible practices that benefit both people and the planet. By championing ethical sourcing, EGT aims to become the global standard for responsible gold, integrating with a broader ecosystem of ethical goods and positioning the token as a leader in sustainable commerce. We will only source gold from partners who adhere to international standards and the African Union's Pan-African ResourceReporting Code (PARC)."
+                }
             };
             
-            const constellationShapes = [
+            const elementShapes = [
+                // Pillars
                 [new THREE.Vector3(0, 0.2, 0), new THREE.Vector3(0.5, 0.5, 0.5), new THREE.Vector3(-0.5, 0.5, -0.5), new THREE.Vector3(0, -0.5, 0)],
                 [new THREE.Vector3(-0.5, 0.5, 0), new THREE.Vector3(0.5, 0.5, 0), new THREE.Vector3(0.5, -0.5, 0), new THREE.Vector3(-0.5, -0.5, 0)],
                 [new THREE.Vector3(0, 0.6, 0), new THREE.Vector3(-0.5, 0, 0), new THREE.Vector3(0.5, 0, 0), new THREE.Vector3(0, -0.6, 0)],
                 [new THREE.Vector3(0.0, 0.0, 0), new THREE.Vector3(0.6, 0.3, 0), new THREE.Vector3(0.3, 0.6, 0), new THREE.Vector3(-0.3, 0.6, 0), new THREE.Vector3(-0.6, 0.3, 0), new THREE.Vector3(-0.6, -0.3,0), new THREE.Vector3(-0.3, -0.6,0), new THREE.Vector3(0.3,-0.6,0), new THREE.Vector3(0.6,-0.3,0)]
             ];
+            const elementColors = [0x8a7905, 0x4caf50, 0x0077b6, 0xffa500];
+            const elementNames = Object.keys(elementInfos);
+            interactiveElements.push(centralSphere);
+
             function normalizeAndScale(points) {
                 const box = new THREE.Box3().setFromPoints(points);
                 const center = box.getCenter(new THREE.Vector3());
                 const size = box.getSize(new THREE.Vector3());
                 const maxDim = Math.max(size.x, size.y, size.z);
-                const scale = 0.6 / maxDim;
+                const scale = 0.7 / maxDim;
                 return points.map(p => p.sub(center).multiplyScalar(scale));
             }
 
@@ -153,28 +168,32 @@
                 const pillarDistance = isMobile ? 1.9 : 2.4;
                 const globeSize = isMobile ? 1.0 : 1.2;
                 centralSphere.scale.set(globeSize, globeSize, globeSize);
-                const pillarPositions = [
-                    new THREE.Vector3(0, pillarDistance, 0), new THREE.Vector3(pillarDistance, 0, 0),
-                    new THREE.Vector3(0, -pillarDistance, 0), new THREE.Vector3(-pillarDistance, 0, 0)
+
+                const elementPositions = [
+                    new THREE.Vector3(0, pillarDistance, 0),
+                    new THREE.Vector3(pillarDistance, 0, 0),
+                    new THREE.Vector3(0, -pillarDistance, 0),
+                    new THREE.Vector3(-pillarDistance, 0, 0)
                 ];
-                pillarMeshes.forEach((mesh, i) => { mesh.position.copy(pillarPositions[i]); });
+                interactiveElements.filter(el => el.name.startsWith('element-')).forEach((mesh, i) => { 
+                    mesh.position.copy(elementPositions[i]);
+                });
             }
 
-            for (let i = 0; i < 4; i++) {
+            for (let i = 0; i < elementNames.length; i++) {
                 const group = new THREE.Group();
-                const normalizedPoints = normalizeAndScale(constellationShapes[i]);
-                if(i !== 0){ normalizedPoints.push(normalizedPoints[0].clone()); }
-                const lineMaterial = new THREE.LineBasicMaterial({ color: pillarColors[i], transparent: true, opacity: 0.7 });
+                const normalizedPoints = normalizeAndScale(elementShapes[i]);
+                const lineMaterial = new THREE.LineBasicMaterial({ color: elementColors[i], transparent: true, opacity: 0.7 });
                 const lineGeometry = new THREE.BufferGeometry().setFromPoints(normalizedPoints);
-                const constellationLine = new THREE.Line(lineGeometry, lineMaterial);
-                group.add(constellationLine);
-                const pointsMaterial = new THREE.PointsMaterial({ color: pillarColors[i], size: 0.1, sizeAttenuation: true });
+                const line = new THREE.Line(lineGeometry, lineMaterial);
+                group.add(line);
+                const pointsMaterial = new THREE.PointsMaterial({ color: elementColors[i], size: 0.1, sizeAttenuation: true });
                 const pointsGeometry = new THREE.BufferGeometry().setFromPoints(normalizedPoints);
-                const constellationPoints = new THREE.Points(pointsGeometry, pointsMaterial);
-                group.add(constellationPoints);
-                group.name = `pillar-${pillarPillarNames[i]}`;
+                const points = new THREE.Points(pointsGeometry, pointsMaterial);
+                group.add(points);
+                group.name = `element-${elementNames[i]}`;
                 scene.add(group);
-                pillarMeshes.push(group);
+                interactiveElements.push(group);
             }
             
             updateLayout();
@@ -182,7 +201,6 @@
             const raycaster = new THREE.Raycaster();
             const mouse = new THREE.Vector2();
             let currentSelection = null;
-
             const overlayBox = document.getElementById('overlay-box');
             const overlayTitle = document.getElementById('overlay-title');
             const overlayText = document.getElementById('overlay-text');
@@ -192,50 +210,49 @@
                 if (!overlayBox.classList.contains('hidden')) {
                      currentSelection = null;
                      overlayBox.classList.add('hidden');
-                     pillarMeshes.forEach(meshGroup => meshGroup.scale.set(1, 1, 1));
+                     interactiveElements.filter(el => el.name).forEach(meshGroup => meshGroup.scale.set(1, 1, 1));
                      return;
                 }
 
                 mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
                 mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
                 raycaster.setFromCamera(mouse, camera);
-                
-                const pillarIntersects = raycaster.intersectObjects(pillarMeshes, true);
-                const sphereIntersect = raycaster.intersectObject(centralSphere);
+                const intersects = raycaster.intersectObjects(interactiveElements, true);
 
-                if (pillarIntersects.length > 0) {
-                    const clickedPillar = pillarIntersects[0].object.parent;
-                    currentSelection = clickedPillar;
-                    const pillarName = clickedPillar.name.split('-')[1];
-                    
-                    overlayTitle.textContent = pillarName;
-                    overlayText.textContent = pillarInfos[pillarName];
-                    overlayButtonContainer.innerHTML = ''; // No button for pillars
-                    overlayBox.classList.remove('hidden');
+                if (intersects.length > 0) {
+                    const clickedObject = intersects[0].object.name === 'central-sphere' ? intersects[0].object : intersects[0].object.parent;
+                    currentSelection = clickedObject;
 
-                } else if (sphereIntersect.length > 0) {
-                    currentSelection = centralSphere;
-                    overlayTitle.textContent = "Ethical Sourcing Query";
-                    overlayText.textContent = "Click the button below to simulate a molecular scan and verify the traceability of a gold asset.";
-                    overlayButtonContainer.innerHTML = '<button id="scan-button">Scan Molecular Tag</button>';
-                    overlayBox.classList.remove('hidden');
-
-                    document.getElementById('scan-button').addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        triggerMolecularScan();
-                    });
+                    if (clickedObject.name === 'central-sphere') {
+                        overlayBox.style.textAlign = 'center';
+                        overlayTitle.textContent = "Ethical Sourcing Query";
+                        overlayText.textContent = "Click the button below to simulate a molecular scan and verify the traceability of a gold asset.";
+                        overlayButtonContainer.innerHTML = '<button id="scan-button">Scan Molecular Tag</button>';
+                        document.getElementById('scan-button').addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            triggerMolecularScan();
+                        });
+                        overlayBox.classList.remove('hidden');
+                    } else {
+                        overlayBox.style.textAlign = 'left';
+                        const elementName = clickedObject.name.split('-')[1];
+                        const info = elementInfos[elementName];
+                        
+                        overlayTitle.textContent = elementName;
+                        overlayText.textContent = info.text;
+                        overlayButtonContainer.innerHTML = '';
+                        overlayBox.classList.remove('hidden');
+                    }
                 }
 
-                pillarMeshes.forEach(meshGroup => meshGroup.scale.set(1, 1, 1));
-                if(currentSelection && pillarMeshes.includes(currentSelection)) {
-                    currentSelection.scale.set(1.5, 1.5, 1.5);
-                }
+                interactiveElements.filter(el => el.name).forEach(meshGroup => meshGroup.scale.set(1, 1, 1));
+                if(currentSelection && currentSelection.name.startsWith('element-')) { currentSelection.scale.set(1.5, 1.5, 1.5); }
             }
             container.addEventListener('click', onMouseClick, false);
 
             function triggerMolecularScan() {
                 overlayTitle.textContent = "Scanning...";
-                overlayText.textContent = "";
+                overlayText.textContent = "Simulating molecular tag verification...";
                 overlayButtonContainer.innerHTML = "";
 
                 const dummyScans = [{id: "EGT-A1B2C3D4", success: true}, {id: "EGT-X9Y8Z7W6", success: false}];
@@ -248,7 +265,7 @@
                         overlayTitle.textContent = "Scan Failed";
                         overlayText.textContent = "The molecular scan failed to verify the tag. This may be due to a faulty scan or an unverified asset. Click anywhere to close.";
                     }
-                }, 1000);
+                }, 1500);
             }
 
             const geminiTrace = async (goldId) => {
@@ -295,7 +312,7 @@
                 centralSphere.rotation.x += 0.005;
                 centralSphere.rotation.y += 0.005;
                 if (starField) starField.rotation.y -= 0.0002;
-                pillarMeshes.forEach((mesh, i) => mesh.rotation.y += 0.002 + (i * 0.0005));
+                interactiveElements.filter(el => el.name).forEach((mesh, i) => mesh.rotation.y += 0.002 + (i * 0.0005));
                 renderer.render(scene, camera);
             }
             animate();
@@ -328,3 +345,5 @@
 </body>
 </html>
 ```
+
+
