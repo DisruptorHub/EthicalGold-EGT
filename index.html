@@ -1,294 +1,272 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<!-- Cache Bust Comment: 1 -->
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.6">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000; min-height: 14.0px}
-    span.s1 {font-kerning: none}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore the journey of ethically sourced gold with an interactive 3D experience.EthicalGold (EGT) provides transparent, blockchain-verified traceability from mine to market.">
+    <title>EthicalGold (EGT) Hologram</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #0d1117;
+            color: #c9d1d9;
+        }
+        canvas {
+            display: block;
+            touch-action: none;
+        }
+        #container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+        .info-box {
+            position: absolute;
+            bottom: 80px; 
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(18, 24, 30, 0.8);
+            border: 1px solid #30363d;
+            padding: 0.75rem;
+            border-radius: 12px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            width: 80%;
+            max-width: 350px;
+            z-index: 10;
+        }
+        .pillar-info-box {
+            position: absolute;
+            background: rgba(18, 24, 30, 0.9);
+            border: 1px solid #30363d;
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: left;
+            backdrop-filter: blur(5px);
+            width: 250px;
+            max-height: 300px;
+            overflow-y: auto;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.5s ease-in-out, visibility 0.5s;
+            z-index: 20;
+            pointer-events: none;
+        }
+         .pillar-info-box.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .pillar-info-box h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+        }
+        .pillar-info-box p {
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+    </style>
 </head>
 <body>
-<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
-<p class="p1"><span class="s1">&lt;html lang="en"&gt;</span></p>
-<p class="p1"><span class="s1">&lt;head&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta name="description" content="Explore the journey of ethically sourced gold with an interactive 3D experience.EthicalGold (EGT) provides transparent, blockchain-verified traceability from mine to market."&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;title&gt;EthicalGold (EGT) Hologram&lt;/title&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"&gt;&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;style&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>body {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-family: 'Inter', sans-serif;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin: 0;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>overflow: hidden;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>display: flex;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>justify-content: center;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>align-items: center;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>height: 100vh;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background-color: #0d1117;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: #c9d1d9;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>canvas {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>display: block;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>touch-action: none;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>#container {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>position: relative;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>width: 100vw;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>height: 100vh;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.info-box {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>position: absolute;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>bottom: 80px; /* Increased significantly to ensure clearance */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>left: 50%;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>transform: translateX(-50%);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: rgba(18, 24, 30, 0.8);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border: 1px solid #30363d;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding: 0.75rem;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 12px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>text-align: center;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>backdrop-filter: blur(5px);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>width: 80%;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>max-width: 350px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>z-index: 10;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>/* Style for the pillar info pop-up */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.pillar-info-box {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>position: absolute;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: rgba(18, 24, 30, 0.9);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border: 1px solid #30363d;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding: 1rem;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 12px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>text-align: left;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>backdrop-filter: blur(5px);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>width: 250px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>max-height: 300px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>overflow-y: auto;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>transform: translate(-50%, -50%);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>transition: opacity 0.5s ease-in-out, visibility 0.5s;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>z-index: 20;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>pointer-events: none; /* Make it non-interactive by default */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">         </span>.pillar-info-box.hidden {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>opacity: 0;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>visibility: hidden;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.pillar-info-box h3 {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 1rem;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: 700;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 0.5rem;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: #ffffff;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.pillar-info-box p {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 0.85rem;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>line-height: 1.4;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
-<p class="p1"><span class="s1">&lt;body&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div id="container"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div id="main-info-box" class="info-box"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h1 class="text-base font-bold"&gt;EthicalGold (EGT)&lt;/h1&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div id="trace-toggle-container" class="text-center mt-2"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;button id="trace-toggle-button" class="bg-green-600 hover:bg-green-700 p-2 rounded-lg text-white font-bold"&gt;Ethical Sourcing Query&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;!-- This is the pop-up box for pillar descriptions --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div id="pillar-info-display" class="pillar-info-box hidden"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h3 id="pillar-info-title"&gt;&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;p id="pillar-info-text"&gt;&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>window.onload = function() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const container = document.getElementById('container');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const scene = new THREE.Scene();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>renderer.setSize(window.innerWidth, window.innerHeight);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>container.appendChild(renderer.domElement);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>camera.position.z = 5;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// --- STARFIELD ---</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let starField;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>function createStarfield() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const starGeometry = new THREE.BufferGeometry();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const starCount = 5000;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const posArray = new Float32Array(starCount * 3);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>for(let i = 0; i &lt; starCount * 3; i++) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>posArray[i] = (Math.random() - 0.5) * 2000;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>starGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const starMaterial = new THREE.PointsMaterial({ size: 0.7, color: 0xffffff });</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>starField = new THREE.Points(starGeometry, starMaterial);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>scene.add(starField);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>createStarfield();</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>scene.add(ambientLight);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const pointLight = new THREE.PointLight(0xffffff, 1);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>pointLight.position.set(5, 5, 5);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>scene.add(pointLight);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const holoMaterial = new THREE.MeshStandardMaterial({</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>color: 0x238636,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>transparent: true,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>opacity: 0.15,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>wireframe: true</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const centralSphere = new THREE.Mesh(new THREE.IcosahedronGeometry(1.2, 4), holoMaterial);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>scene.add(centralSphere);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const pillarMeshes = [];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const pillarPositions = [ // Decreased distance further</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>new THREE.Vector3(0, 1.9, 0), new THREE.Vector3(1.9, 0, 0),</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>new THREE.Vector3(0, -1.9, 0), new THREE.Vector3(-1.9, 0, 0)</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const pillarColors = [0x8a7905, 0x4caf50, 0x0077b6, 0xffa500];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const pillarPillarNames = ["Immutable Traceability &amp; Integrity", "Empowering Artisanal Communities", "Decentralized Governance &amp; Community Ownership", "Sustainable &amp; Ethical Global Standard"];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const pillarInfos = {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"Immutable Traceability &amp; Integrity": "Our authentication platform, EthicalGold, uses a dual QR code and NFC chip on a secure, tamper-evident physical tag. This tag serves as a secure bridge to an immutable blockchain ledger, providing an unchangeable and transparent record of every gram of gold from its origin. This ensures the integrity of the supply chain and provides buyers with indisputable proof of ethical sourcing, making EGT the standard for trustworthy gold.",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"Empowering Artisanal Communities": "A core function of EthicalGold is to directly uplift artisanal miners. Through secure and fair payment rails, and by providing essential tools and training, EGT empowers these communities economically, fostering social impact that adds intrinsic value to the gold and the token itself. Our tokenomics incentivize usage, not long-term holding, ensuring the platform's utility is the primary focus. The DApp includes features like 'Miner Spotlights,' where the community can see the faces and stories of the miners their investment is helping.",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"Decentralized Governance &amp; Community Ownership": "The EthicalGold project is built on a foundation of decentralization, with control and decision-making gradually transitioning to the community through a DAO. This ensures long-term sustainability, community alignment, and provides token holders with a direct voice in the project's evolution, securing the future of their investment. We will not make promises about the project's future value based on the team's efforts, as the value will be a byproduct of the network's adoption and usage.",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"Sustainable &amp; Ethical Global Standard": "EthicalGold is committed to responsible practices that benefit both people and the planet. By championing ethical sourcing, EGT aims to become the global standard for responsible gold, integrating with a broader ecosystem of ethical goods and positioning the token as a leader in sustainable commerce. We will only source gold from partners who adhere to international standards and the African Union's Pan-African ResourceReporting Code (PARC)."</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const constellationShapes = [</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>[new THREE.Vector3(0, 0.2, 0), new THREE.Vector3(0.5, 0.5, 0.5), new THREE.Vector3(-0.5, 0.5, -0.5), new THREE.Vector3(0, -0.5, 0)],</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>[new THREE.Vector3(-0.5, 0.5, 0), new THREE.Vector3(0.5, 0.5, 0), new THREE.Vector3(0.5, -0.5, 0), new THREE.Vector3(-0.5, -0.5, 0)],</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>[new THREE.Vector3(0, 0.6, 0), new THREE.Vector3(-0.5, 0, 0), new THREE.Vector3(0.5, 0, 0), new THREE.Vector3(0, -0.6, 0)],</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>[new THREE.Vector3(0.0, 0.0, 0), new THREE.Vector3(0.6, 0.3, 0), new THREE.Vector3(0.3, 0.6, 0), new THREE.Vector3(-0.3, 0.6, 0), new THREE.Vector3(-0.6, 0.3, 0), new THREE.Vector3(-0.6, -0.3,0), new THREE.Vector3(-0.3, -0.6,0), new THREE.Vector3(0.3,-0.6,0), new THREE.Vector3(0.6,-0.3,0)]</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>function normalizeAndScale(points) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const box = new THREE.Box3().setFromPoints(points);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const center = box.getCenter(new THREE.Vector3());</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const size = box.getSize(new THREE.Vector3());</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const maxDim = Math.max(size.x, size.y, size.z);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const scale = 0.6 / maxDim;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>return points.map(p =&gt; p.sub(center).multiplyScalar(scale));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>for (let i = 0; i &lt; 4; i++) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const group = new THREE.Group();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const normalizedPoints = normalizeAndScale(constellationShapes[i]);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if(i !== 0){ normalizedPoints.push(normalizedPoints[0].clone()); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const lineMaterial = new THREE.LineBasicMaterial({ color: pillarColors[i], transparent: true, opacity: 0.7 });</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const lineGeometry = new THREE.BufferGeometry().setFromPoints(normalizedPoints);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const constellationLine = new THREE.Line(lineGeometry, lineMaterial);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>group.add(constellationLine);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const pointsMaterial = new THREE.PointsMaterial({ color: pillarColors[i], size: 0.1, sizeAttenuation: true });</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const pointsGeometry = new THREE.BufferGeometry().setFromPoints(normalizedPoints);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const constellationPoints = new THREE.Points(pointsGeometry, pointsMaterial);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>group.add(constellationPoints);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>group.position.copy(pillarPositions[i]);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>group.name = `pillar-${pillarPillarNames[i]}`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>scene.add(group);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>pillarMeshes.push(group);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const raycaster = new THREE.Raycaster();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const mouse = new THREE.Vector2();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let currentPillar = null;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const pillarInfoBox = document.getElementById('pillar-info-display');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const pillarInfoTitle = document.getElementById('pillar-info-title');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const pillarInfoText = document.getElementById('pillar-info-text');</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>function onMouseClick(event) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>mouse.x = (event.clientX / window.innerWidth) * 2 - 1;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>raycaster.setFromCamera(mouse, camera);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const intersects = raycaster.intersectObjects(pillarMeshes, true);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (intersects.length &gt; 0) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>const clickedPillar = intersects[0].object.parent;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>if (currentPillar === clickedPillar) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>currentPillar = null;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>pillarInfoBox.classList.add('hidden');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>} else {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>currentPillar = clickedPillar;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>const pillarName = clickedPillar.name.split('-')[1];</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>pillarInfoTitle.textContent = pillarName;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>pillarInfoText.textContent = pillarInfos[pillarName];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>pillarInfoBox.classList.remove('hidden');</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>// Smart positioning for the info box</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>const pillarScreenPosition = new THREE.Vector3().copy(clickedPillar.position).project(camera);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>let infoBoxX = (pillarScreenPosition.x * 0.5 + 0.5) * window.innerWidth;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>let infoBoxY = (-pillarScreenPosition.y * 0.5 + 0.5) * window.innerHeight;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>const offsetX = clickedPillar.position.x &gt; 0 ? -150 : 150;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>const offsetY = clickedPillar.position.y &gt; 0 ? 100 : -100;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>infoBoxX += offsetX;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>infoBoxY += offsetY;</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>pillarInfoBox.style.left = `${infoBoxX}px`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>pillarInfoBox.style.top = `${infoBoxY}px`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} else {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>currentPillar = null;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>pillarInfoBox.classList.add('hidden');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>// Update visual state</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>pillarMeshes.forEach(meshGroup =&gt; meshGroup.scale.set(1, 1, 1));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if(currentPillar) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>currentPillar.scale.set(1.5, 1.5, 1.5);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>window.addEventListener('click', onMouseClick, false);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const traceToggleButton = document.getElementById('trace-toggle-button');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>traceToggleButton.addEventListener('click', () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>// This button's functionality can be implemented later if needed</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>alert("Ethical Sourcing Query coming soon!");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>function animate() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>requestAnimationFrame(animate);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>centralSphere.rotation.x += 0.005;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>centralSphere.rotation.y += 0.005;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (starField) starField.rotation.y -= 0.0002;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>pillarMeshes.forEach((mesh, i) =&gt; mesh.rotation.y += 0.002 + (i * 0.0005));</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>renderer.render(scene, camera);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>animate();</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>window.addEventListener('resize', () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>camera.aspect = window.innerWidth / window.innerHeight;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>camera.updateProjectionMatrix();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>renderer.setSize(window.innerWidth, window.innerHeight);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let isDragging = false;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let previousMousePosition = { x: 0, y: 0 };</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>function onDocumentMouseDown(event) { isDragging = true; previousMousePosition.x = event.clientX; previousMousePosition.y = event.clientY; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>function onDocumentMouseMove(event) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (isDragging) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>const deltaX = event.clientX - previousMousePosition.x;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>const deltaY = event.clientY - previousMousePosition.y;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>centralSphere.rotation.y += deltaX * 0.005;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>centralSphere.rotation.x += deltaY * 0.005;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>previousMousePosition.x = event.clientX;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>previousMousePosition.y = event.clientY;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>function onDocumentMouseUp() { isDragging = false; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>document.addEventListener('mousedown', onDocumentMouseDown, false);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>document.addEventListener('mousemove', onDocumentMouseMove, false);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>document.addEventListener('mouseup', onDocumentMouseUp, false);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+    <div id="container">
+        <div id="main-info-box" class="info-box">
+            <h1 class="text-base font-bold">EthicalGold (EGT)</h1>
+            <div id="trace-toggle-container" class="text-center mt-2">
+                <button id="trace-toggle-button" class="bg-green-600 hover:bg-green-700 p-2 rounded-lg text-white font-bold">Ethical Sourcing Query</button>
+            </div>
+        </div>
+        <div id="pillar-info-display" class="pillar-info-box hidden">
+            <h3 id="pillar-info-title"></h3>
+            <p id="pillar-info-text"></p>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const container = document.getElementById('container');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            container.appendChild(renderer.domElement);
+
+            camera.position.z = 5;
+
+            let starField;
+            function createStarfield() {
+                const starGeometry = new THREE.BufferGeometry();
+                const starCount = 5000;
+                const posArray = new Float32Array(starCount * 3);
+                for(let i = 0; i < starCount * 3; i++) {
+                    posArray[i] = (Math.random() - 0.5) * 2000;
+                }
+                starGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+                const starMaterial = new THREE.PointsMaterial({ size: 0.7, color: 0xffffff });
+                starField = new THREE.Points(starGeometry, starMaterial);
+                scene.add(starField);
+            }
+            createStarfield();
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            const pointLight = new THREE.PointLight(0xffffff, 1);
+            pointLight.position.set(5, 5, 5);
+            scene.add(pointLight);
+
+            const holoMaterial = new THREE.MeshStandardMaterial({
+                color: 0x238636,
+                transparent: true,
+                opacity: 0.15,
+                wireframe: true
+            });
+            const centralSphere = new THREE.Mesh(new THREE.IcosahedronGeometry(1.2, 4), holoMaterial);
+            scene.add(centralSphere);
+
+            const pillarMeshes = [];
+            const pillarPositions = [
+                new THREE.Vector3(0, 1.9, 0), new THREE.Vector3(1.9, 0, 0),
+                new THREE.Vector3(0, -1.9, 0), new THREE.Vector3(-1.9, 0, 0)
+            ];
+            const pillarColors = [0x8a7905, 0x4caf50, 0x0077b6, 0xffa500];
+            const pillarPillarNames = ["Immutable Traceability & Integrity", "Empowering Artisanal Communities", "Decentralized Governance & Community Ownership", "Sustainable & Ethical Global Standard"];
+            const pillarInfos = {
+                "Immutable Traceability & Integrity": "Our authentication platform, EthicalGold, uses a dual QR code and NFC chip on a secure, tamper-evident physical tag. This tag serves as a secure bridge to an immutable blockchain ledger, providing an unchangeable and transparent record of every gram of gold from its origin. This ensures the integrity of the supply chain and provides buyers with indisputable proof of ethical sourcing, making EGT the standard for trustworthy gold.",
+                "Empowering Artisanal Communities": "A core function of EthicalGold is to directly uplift artisanal miners. Through secure and fair payment rails, and by providing essential tools and training, EGT empowers these communities economically, fostering social impact that adds intrinsic value to the gold and the token itself. Our tokenomics incentivize usage, not long-term holding, ensuring the platform's utility is the primary focus. The DApp includes features like 'Miner Spotlights,' where the community can see the faces and stories of the miners their investment is helping.",
+                "Decentralized Governance & Community Ownership": "The EthicalGold project is built on a foundation of decentralization, with control and decision-making gradually transitioning to the community through a DAO. This ensures long-term sustainability, community alignment, and provides token holders with a direct voice in the project's evolution, securing the future of their investment. We will not make promises about the project's future value based on the team's efforts, as the value will be a byproduct of the network's adoption and usage.",
+                "Sustainable & Ethical Global Standard": "EthicalGold is committed to responsible practices that benefit both people and the planet. By championing ethical sourcing, EGT aims to become the global standard for responsible gold, integrating with a broader ecosystem of ethical goods and positioning the token as a leader in sustainable commerce. We will only source gold from partners who adhere to international standards and the African Union's Pan-African ResourceReporting Code (PARC)."
+            };
+            
+            const constellationShapes = [
+                [new THREE.Vector3(0, 0.2, 0), new THREE.Vector3(0.5, 0.5, 0.5), new THREE.Vector3(-0.5, 0.5, -0.5), new THREE.Vector3(0, -0.5, 0)],
+                [new THREE.Vector3(-0.5, 0.5, 0), new THREE.Vector3(0.5, 0.5, 0), new THREE.Vector3(0.5, -0.5, 0), new THREE.Vector3(-0.5, -0.5, 0)],
+                [new THREE.Vector3(0, 0.6, 0), new THREE.Vector3(-0.5, 0, 0), new THREE.Vector3(0.5, 0, 0), new THREE.Vector3(0, -0.6, 0)],
+                [new THREE.Vector3(0.0, 0.0, 0), new THREE.Vector3(0.6, 0.3, 0), new THREE.Vector3(0.3, 0.6, 0), new THREE.Vector3(-0.3, 0.6, 0), new THREE.Vector3(-0.6, 0.3, 0), new THREE.Vector3(-0.6, -0.3,0), new THREE.Vector3(-0.3, -0.6,0), new THREE.Vector3(0.3,-0.6,0), new THREE.Vector3(0.6,-0.3,0)]
+            ];
+            function normalizeAndScale(points) {
+                const box = new THREE.Box3().setFromPoints(points);
+                const center = box.getCenter(new THREE.Vector3());
+                const size = box.getSize(new THREE.Vector3());
+                const maxDim = Math.max(size.x, size.y, size.z);
+                const scale = 0.6 / maxDim;
+                return points.map(p => p.sub(center).multiplyScalar(scale));
+            }
+            for (let i = 0; i < 4; i++) {
+                const group = new THREE.Group();
+                const normalizedPoints = normalizeAndScale(constellationShapes[i]);
+                if(i !== 0){ normalizedPoints.push(normalizedPoints[0].clone()); }
+                const lineMaterial = new THREE.LineBasicMaterial({ color: pillarColors[i], transparent: true, opacity: 0.7 });
+                const lineGeometry = new THREE.BufferGeometry().setFromPoints(normalizedPoints);
+                const constellationLine = new THREE.Line(lineGeometry, lineMaterial);
+                group.add(constellationLine);
+                const pointsMaterial = new THREE.PointsMaterial({ color: pillarColors[i], size: 0.1, sizeAttenuation: true });
+                const pointsGeometry = new THREE.BufferGeometry().setFromPoints(normalizedPoints);
+                const constellationPoints = new THREE.Points(pointsGeometry, pointsMaterial);
+                group.add(constellationPoints);
+                group.position.copy(pillarPositions[i]);
+                group.name = `pillar-${pillarPillarNames[i]}`;
+                scene.add(group);
+                pillarMeshes.push(group);
+            }
+            
+            const raycaster = new THREE.Raycaster();
+            const mouse = new THREE.Vector2();
+            let currentPillar = null;
+
+            const pillarInfoBox = document.getElementById('pillar-info-display');
+            const pillarInfoTitle = document.getElementById('pillar-info-title');
+            const pillarInfoText = document.getElementById('pillar-info-text');
+
+            function onMouseClick(event) {
+                mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+                raycaster.setFromCamera(mouse, camera);
+                const intersects = raycaster.intersectObjects(pillarMeshes, true);
+
+                if (intersects.length > 0) {
+                    const clickedPillar = intersects[0].object.parent;
+                    if (currentPillar === clickedPillar) {
+                        currentPillar = null;
+                        pillarInfoBox.classList.add('hidden');
+                    } else {
+                        currentPillar = clickedPillar;
+                        const pillarName = clickedPillar.name.split('-')[1];
+                        
+                        pillarInfoTitle.textContent = pillarName;
+                        pillarInfoText.textContent = pillarInfos[pillarName];
+                        pillarInfoBox.classList.remove('hidden');
+
+                        const pillarScreenPosition = new THREE.Vector3().copy(clickedPillar.position).project(camera);
+                        let infoBoxX = (pillarScreenPosition.x * 0.5 + 0.5) * window.innerWidth;
+                        let infoBoxY = (-pillarScreenPosition.y * 0.5 + 0.5) * window.innerHeight;
+
+                        const offsetX = clickedPillar.position.x > 0 ? -150 : 150;
+                        const offsetY = clickedPillar.position.y > 0 ? 100 : -100;
+                        infoBoxX += offsetX;
+                        infoBoxY += offsetY;
+                        
+                        pillarInfoBox.style.left = `${infoBoxX}px`;
+                        pillarInfoBox.style.top = `${infoBoxY}px`;
+                    }
+                } else {
+                    currentPillar = null;
+                    pillarInfoBox.classList.add('hidden');
+                }
+
+                pillarMeshes.forEach(meshGroup => meshGroup.scale.set(1, 1, 1));
+                if(currentPillar) {
+                    currentPillar.scale.set(1.5, 1.5, 1.5);
+                }
+            }
+            window.addEventListener('click', onMouseClick, false);
+
+            const traceToggleButton = document.getElementById('trace-toggle-button');
+            traceToggleButton.addEventListener('click', () => {
+                alert("Ethical Sourcing Query coming soon!");
+            });
+
+            function animate() {
+                requestAnimationFrame(animate);
+                centralSphere.rotation.x += 0.005;
+                centralSphere.rotation.y += 0.005;
+                if (starField) starField.rotation.y -= 0.0002;
+                pillarMeshes.forEach((mesh, i) => mesh.rotation.y += 0.002 + (i * 0.0005));
+                
+                renderer.render(scene, camera);
+            }
+            animate();
+            
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+            let isDragging = false;
+            let previousMousePosition = { x: 0, y: 0 };
+            function onDocumentMouseDown(event) { isDragging = true; previousMousePosition.x = event.clientX; previousMousePosition.y = event.clientY; }
+            function onDocumentMouseMove(event) {
+                if (isDragging) {
+                    const deltaX = event.clientX - previousMousePosition.x;
+                    const deltaY = event.clientY - previousMousePosition.y;
+                    centralSphere.rotation.y += deltaX * 0.005;
+                    centralSphere.rotation.x += deltaY * 0.005;
+                    previousMousePosition.x = event.clientX;
+                    previousMousePosition.y = event.clientY;
+                }
+            }
+            function onDocumentMouseUp() { isDragging = false; }
+            document.addEventListener('mousedown', onDocumentMouseDown, false);
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
+            document.addEventListener('mouseup', onDocumentMouseUp, false);
+        };
+    </script>
 </body>
 </html>
