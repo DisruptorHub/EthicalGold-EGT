@@ -1,0 +1,459 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.6">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="description" content="Explore the journey of ethically sourced gold with an interactive 3D experience. EthicalGold (EGT) provides transparent, blockchain-verified traceability from mine to market."&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;EthicalGold (EGT) Hologram&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: 'Inter', sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>overflow: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 100vh;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #0d1117;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #c9d1d9;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>canvas {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: block;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>touch-action: none;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100vw;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 100vh;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.info-box {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>bottom: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>left: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: translateX(-50%);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: rgba(18, 24, 30, 0.8);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid #30363d;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 0.75rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>backdrop-filter: blur(5px);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 80%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-width: 350px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.llm-feature {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 0.75rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding-top: 0.75rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-top: 1px solid #30363d;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: left;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.llm-feature h2 {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.9rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 0.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.llm-feature input {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 0.4rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #181d23;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid #30363d;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #c9d1d9;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 0.4rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.llm-feature button {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #238636;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 0.4rem 0.8rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.llm-feature .response {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 0.75rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 0.6rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #181d23;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>white-space: pre-wrap;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>word-wrap: break-word;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.8rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-height: 200px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>overflow-y: auto;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.hidden {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: none;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.pillar-info-box {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: rgba(18, 24, 30, 0.9);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid #30363d;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: left;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>backdrop-filter: blur(5px);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 250px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-height: 300px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>overflow-y: auto;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: translate(-50%, -50%);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.5s ease-in-out;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.pillar-info-box h3 {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 700;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 0.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #ffffff;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.pillar-info-box p {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.85rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>line-height: 1.4;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="info-box"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h1 class="text-base font-bold"&gt;EthicalGold (EGT)&lt;/h1&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="trace-toggle-container" class="text-center mt-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button id="trace-toggle-button" class="bg-green-600 hover:bg-green-700 p-2 rounded-lg text-white font-bold"&gt;Ethical Sourcing Query&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="trace-feature" class="llm-feature hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2&gt;Ethical Sourcing Query&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flex items-center justify-center space-x-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button id="molecular-scan" class="bg-green-600 hover:bg-green-700 p-2 rounded-lg text-white font-bold"&gt;Scan Molecular Tag&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div id="loading" class="text-center mt-2 hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div style="border-top-color:transparent" class="w-6 h-6 border-4 border-white border-solid rounded-full animate-spin"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div id="trace-response" class="response"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="pillar-info-display" class="pillar-info-box hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3 id="pillar-info-title"&gt;&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p id="pillar-info-text"&gt;&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.onload = function() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const container = document.getElementById('container');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const scene = new THREE.Scene();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });</p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderer.setSize(window.innerWidth, window.innerHeight);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>container.appendChild(renderer.domElement);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>camera.position.z = 5;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>scene.add(ambientLight);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const pointLight = new THREE.PointLight(0xffffff, 1);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>pointLight.position.set(5, 5, 5);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>scene.add(pointLight);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const holoMaterial = new THREE.MeshStandardMaterial({</p>
+<p class="p1"><span class="Apple-converted-space">                </span>color: 0x238636,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>transparent: true,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>opacity: 0.1,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>wireframe: true</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const centralSphere = new THREE.Mesh(new THREE.IcosahedronGeometry(1, 3), holoMaterial);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>scene.add(centralSphere);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const pillarMeshes = [];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const pillarPositions = [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>new THREE.Vector3(0, 2, 0),</p>
+<p class="p1"><span class="Apple-converted-space">                </span>new THREE.Vector3(2, 0, 0),</p>
+<p class="p1"><span class="Apple-converted-space">                </span>new THREE.Vector3(0, -2, 0),</p>
+<p class="p1"><span class="Apple-converted-space">                </span>new THREE.Vector3(-2, 0, 0)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const pillarColors = [0x8a7905, 0x4caf50, 0x0077b6, 0xffa500];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const pillarPillarNames = ["Immutable Traceability &amp; Integrity", "Empowering Artisanal Communities", "Decentralized Governance &amp; Community Ownership", "Sustainable &amp; Ethical Global Standard"];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const pillarInfos = {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>"Immutable Traceability &amp; Integrity": "Our authentication platform, EthicalGold, uses a dual QR code and NFC chip on a secure, tamper-evident physical tag. This tag serves as a secure bridge to an immutable blockchain ledger, providing an unchangeable and transparent record of every gram of gold from its origin. This ensures the integrity of the supply chain and provides buyers with indisputable proof of ethical sourcing, making EGT the standard for trustworthy gold.",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>"Empowering Artisanal Communities": "A core function of EthicalGold is to directly uplift artisanal miners. Through secure and fair payment rails, and by providing essential tools and training, EGT empowers these communities economically, fostering social impact that adds intrinsic value to the gold and the token itself. Our tokenomics incentivize usage, not long-term holding, ensuring the platform's utility is the primary focus. The DApp includes features like 'Miner Spotlights,' where the community can see the faces and stories of the miners their investment is helping.",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>"Decentralized Governance &amp; Community Ownership": "The EthicalGold project is built on a foundation of decentralization, with control and decision-making gradually transitioning to the community through a DAO. This ensures long-term sustainability, community alignment, and provides token holders with a direct voice in the project's evolution, securing the future of their investment. We will not make promises about the project's future value based on the team's efforts, as the value will be a byproduct of the network's adoption and usage.",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>"Sustainable &amp; Ethical Global Standard": "EthicalGold is committed to responsible practices that benefit both people and the planet. By championing ethical sourcing, EGT aims to become the global standard for responsible gold, integrating with a broader ecosystem of ethical goods and positioning the token as a leader in sustainable commerce. We will only source gold from partners who adhere to international standards and the African Union's Pan-African Resource Reporting Code (PARC)."</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>for (let i = 0; i &lt; 4; i++) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const mesh = new THREE.Mesh(</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>new THREE.SphereGeometry(0.3, 32, 32),</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>new THREE.MeshStandardMaterial({ color: pillarColors[i], transparent: true, opacity: 0.8 })</p>
+<p class="p1"><span class="Apple-converted-space">                </span>);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>mesh.position.copy(pillarPositions[i]);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>mesh.name = `pillar-${pillarPillarNames[i]}`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>scene.add(mesh);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>pillarMeshes.push(mesh);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>for (const pillar of pillarMeshes) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const geometry = new THREE.CylinderGeometry(0.05, 0.05, pillar.position.length(), 8);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const material = new THREE.MeshStandardMaterial({ color: 0x555555, transparent: true, opacity: 0.5 });</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const mesh = new THREE.Mesh(geometry, material);</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>mesh.position.copy(pillar.position).divideScalar(2);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>mesh.lookAt(centralSphere.position);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>mesh.rotateX(Math.PI / 2);</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>scene.add(mesh);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const raycaster = new THREE.Raycaster();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const mouse = new THREE.Vector2();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const originalScales = {};</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const originalEmissive = {};</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>let currentPillar = null;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>pillarMeshes.forEach(mesh =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>originalScales[mesh.name] = mesh.scale.clone();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>originalEmissive[mesh.name] = mesh.material.emissive.clone();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>function onPillarClick(event) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>mouse.x = (event.clientX / window.innerWidth) * 2 - 1;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>raycaster.setFromCamera(mouse, camera);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const intersects = raycaster.intersectObjects(pillarMeshes);</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>const infoBox = document.getElementById('pillar-info-display');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const infoTitle = document.getElementById('pillar-info-title');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const infoText = document.getElementById('pillar-info-text');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>const traceToggleButton = document.getElementById('trace-toggle-button');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const traceFeatureDiv = document.getElementById('trace-feature');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (intersects.length &gt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const clickedPillar = intersects[0].object;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const pillarName = clickedPillar.name.split('-')[1];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (currentPillar === clickedPillar) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>infoBox.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>currentPillar = null;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>traceToggleButton.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>pillarMeshes.forEach(mesh =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>mesh.scale.copy(originalScales[mesh.name]);</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>mesh.material.emissive.setHex(0x000000);</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>currentPillar = clickedPillar;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>infoBox.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>infoTitle.textContent = pillarName;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>infoText.textContent = pillarInfos[pillarName];</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>traceToggleButton.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>traceFeatureDiv.classList.add('hidden');</p>
+<p class="p2"><span class="Apple-converted-space">                        </span></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>const pillarScreenPosition = new THREE.Vector3().copy(clickedPillar.position).project(camera);</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>infoBox.style.left = `${(pillarScreenPosition.x * 0.5 + 0.5) * window.innerWidth}px`;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>infoBox.style.top = `${(-pillarScreenPosition.y * 0.5 + 0.5) * window.innerHeight}px`;</p>
+<p class="p2"><span class="Apple-converted-space">                        </span></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>pillarMeshes.forEach(mesh =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>mesh.scale.copy(originalScales[mesh.name]);</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>mesh.material.emissive.setHex(0x000000);</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>clickedPillar.scale.set(1.5, 1.5, 1.5);</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>clickedPillar.material.emissive.setHex(0xffffff);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>infoBox.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>currentPillar = null;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>traceToggleButton.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>pillarMeshes.forEach(mesh =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>mesh.scale.copy(originalScales[mesh.name]);</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>mesh.material.emissive.setHex(0x000000);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>window.addEventListener('click', onPillarClick, false);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>function animate() {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>requestAnimationFrame(animate);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>centralSphere.rotation.x += 0.005;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>centralSphere.rotation.y += 0.005;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>const time = Date.now() * 0.001;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>for (let i = 0; i &lt; pillarMeshes.length; i++) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const scale = 1 + 0.1 * Math.sin(time + i);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (pillarMeshes[i] !== currentPillar) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>pillarMeshes[i].scale.set(scale, scale, scale);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>renderer.render(scene, camera);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>animate();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>window.addEventListener('resize', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>camera.aspect = window.innerWidth / window.innerHeight;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>camera.updateProjectionMatrix();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>renderer.setSize(window.innerWidth, window.innerHeight);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>let isDragging = false;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let previousMousePosition = { x: 0, y: 0 };</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>function onDocumentMouseDown(event) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>isDragging = true;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>previousMousePosition.x = event.clientX;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>previousMousePosition.y = event.clientY;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>function onDocumentMouseMove(event) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (isDragging) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const deltaX = event.clientX - previousMousePosition.x;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const deltaY = event.clientY - previousMousePosition.y;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>centralSphere.rotation.y += deltaX * 0.005;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>centralSphere.rotation.x += deltaY * 0.005;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>previousMousePosition.x = event.clientX;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>previousMousePosition.y = event.clientY;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>function onDocumentMouseUp() { isDragging = false; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.addEventListener('mousedown', onDocumentMouseDown, false);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.addEventListener('mousemove', onDocumentMouseMove, false);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.addEventListener('mouseup', onDocumentMouseUp, false);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const traceResponseDiv = document.getElementById('trace-response');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const traceToggleButton = document.getElementById('trace-toggle-button');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const traceFeatureDiv = document.getElementById('trace-feature');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const molecularScanButton = document.getElementById('molecular-scan');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const loadingSpinner = document.getElementById('loading');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const infoBox = document.getElementById('pillar-info-display');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>traceResponseDiv.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>traceFeatureDiv.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>traceToggleButton.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>traceResponseDiv.textContent = '';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>traceToggleButton.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>traceFeatureDiv.classList.toggle('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>infoBox.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>traceToggleButton.classList.toggle('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>molecularScanButton.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>loadingSpinner.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>molecularScanButton.textContent = 'Scanning...';</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const dummyScans = [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{id: "EGT-A1B2C3D4", success: true},</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{id: "EGT-X9Y8Z7W6", success: false}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const randomScan = dummyScans[Math.floor(Math.random() * dummyScans.length)];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>setTimeout(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>loadingSpinner.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>molecularScanButton.textContent = 'Scan Molecular Tag';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (randomScan.success) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>geminiTrace(randomScan.id);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>traceResponseDiv.innerHTML = `&lt;h3 class="font-bold mb-2"&gt;Scan Failed&lt;/h3&gt;&lt;p&gt;The molecular scan failed to verify the tag. This may be due to a faulty scan or an unverified asset. Please try again. If the problem persists, this asset may not be compliant with our standards.&lt;/p&gt;&lt;p class="mt-2 text-xs text-gray-500 italic"&gt;Click to dismiss.&lt;/p&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}, 1000);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const geminiTrace = async (goldId) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>traceResponseDiv.textContent = 'Querying...';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const dummyData = {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>"EGT-A1B2C3D4": {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>mine: "Obuasi Gold Mine, Ghana",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>ethical_certifications: "Fairmined, PARC Compliant",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>journey: "Verified by molecular tag scan (2025) -&gt; Refined at a certified refinery in Accra -&gt; Transported to secure vault in Johannesburg -&gt; Tokenized on EGT blockchain."</p>
+<p class="p1"><span class="Apple-converted-space">                </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                </span>"EGT-X9Y8Z7W6": {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>mine: "Tanzania Gold Mine, Tanzania",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>ethical_certifications: "No known certifications",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>journey: "Verified by molecular tag scan (2024) -&gt; Refined locally -&gt; Illicitly traded -&gt; Unknown origin."</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const makeApiCall = async (retryCount = 0) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const maxRetries = 5;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const baseDelay = 1000;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const data = dummyData[goldId];</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (data) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>const prompt = `Based on the following data for a gold bar ID ${goldId}, provide a detailed, easy-to-read summary for a user.</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>- The report must be structured to emphasize the integrity and traceability of the gold.</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>- Use clear headings and bullet points.</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>- Do not use language that suggests an investment or financial advice.</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>- Frame the information around the 'consumptive asset' argument, focusing on the gold's physical properties and journey.</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>- Highlight key verification points, such as the molecular scan and the blockchain record.</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>- If the data shows a lack of certifications or a broken chain of custody, clearly state the risks in a factual, non-speculative tone.</p>
+<p class="p2"><span class="Apple-converted-space">                        </span></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>Data:</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>Mine of Origin: ${data.mine}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>Ethical Certifications: ${data.ethical_certifications}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>Traceability Journey: ${data.journey}`;</p>
+<p class="p2"><span class="Apple-converted-space">                        </span></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>const payload = { contents: chatHistory };</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>const apiKey = ""; // Remember to add your API Key here!</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;</p>
+<p class="p2"><span class="Apple-converted-space">                        </span></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>const response = await fetch(apiUrl, {</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>method: 'POST',</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>headers: { 'Content-Type': 'application/json' },</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>body: JSON.stringify(payload)</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>if (!response.ok) {</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>throw new Error(`API call failed with status: ${response.status}`);</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>const result = await response.json();</p>
+<p class="p2"><span class="Apple-converted-space">                        </span></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>if (result.candidates &amp;&amp; result.candidates.length &gt; 0 &amp;&amp;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>result.candidates[0].content &amp;&amp; result.candidates[0].content.parts &amp;&amp;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>result.candidates[0].content.parts.length &gt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>const text = result.candidates[0].content.parts[0].text;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>traceResponseDiv.innerHTML = `&lt;h3 class="font-bold mb-2"&gt;Gold Bar Summary: ${goldId}&lt;/h3&gt;&lt;p&gt;${text.replace(/\n/g, '&lt;br&gt;')}&lt;/p&gt;&lt;p class="mt-2 text-xs text-gray-500 italic"&gt;Click to dismiss.&lt;/p&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>traceResponseDiv.textContent = 'Sorry, I couldn\'t generate a summary from the API response.';</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>traceResponseDiv.textContent = 'Error: Digital passport ID not found.';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} catch (error) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>console.error('API Error:', error);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (error instanceof TypeError &amp;&amp; error.message.includes("Failed to fetch") &amp;&amp; retryCount &lt; maxRetries) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>const delay = baseDelay * (2 ** retryCount);</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>await new Promise(res =&gt; setTimeout(res, delay));</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>makeApiCall(retryCount + 1);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>traceResponseDiv.textContent = `An error occurred. Please check the console for details. Make sure you have added a valid API key.`;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>makeApiCall();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
