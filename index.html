@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="Explore the journey of ethically sourced gold with an interactive 3D experience.EthicalGold (EGT) provides transparent, blockchain-verified traceability from mine to market.">
-    <title>EthicalGold (EGT)</title>
+    <title>EthicalGold (EGT) Hologram</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -126,26 +126,26 @@
             pointLight.position.set(5, 5, 5);
             scene.add(pointLight);
 
+            const isMobile = window.innerWidth <= 768;
+
             const holoMaterial = new THREE.MeshStandardMaterial({
                 color: 0x238636,
                 transparent: true,
                 opacity: 0.15,
                 wireframe: true
             });
-            const centralSphere = new THREE.Mesh(new THREE.IcosahedronGeometry(1.2, 4), holoMaterial);
+            const globeSize = isMobile ? 1.0 : 1.2; // Smaller globe on mobile
+            const centralSphere = new THREE.Mesh(new THREE.IcosahedronGeometry(globeSize, 4), holoMaterial);
             scene.add(centralSphere);
 
             const pillarMeshes = [];
             
-            // --- RESPONSIVE 3D LAYOUT ---
-            const isMobile = window.innerWidth <= 768;
-            const pillarDistance = isMobile ? 1.7 : 2.2; // Use a smaller distance on mobile
+            const pillarDistance = isMobile ? 1.7 : 2.2; 
             
             const pillarPositions = [
                 new THREE.Vector3(0, pillarDistance, 0), new THREE.Vector3(pillarDistance, 0, 0),
                 new THREE.Vector3(0, -pillarDistance, 0), new THREE.Vector3(-pillarDistance, 0, 0)
             ];
-            // --- END RESPONSIVE LAYOUT ---
 
             const pillarColors = [0x8a7905, 0x4caf50, 0x0077b6, 0xffa500];
             const pillarPillarNames = ["Immutable Traceability & Integrity", "Empowering Artisanal Communities", "Decentralized Governance & Community Ownership", "Sustainable & Ethical Global Standard"];
@@ -247,6 +247,7 @@
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
+                // We might need to reload or re-calculate pillar positions on resize for a truly dynamic responsive experience
             });
             let isDragging = false;
             let previousMousePosition = { x: 0, y: 0 };
@@ -269,7 +270,8 @@
     </script>
 </body>
 </html>
-```
+
+
 
 
 
