@@ -263,7 +263,7 @@
                         geminiTrace(randomScan.id);
                     } else {
                         overlayTitle.textContent = "Scan Failed";
-                        overlayText.textContent = "The molecular scan failed to verify the tag. This may be due to a faulty scan or an unverified asset. Click anywhere to close.";
+                        overlayText.textContent = "The molecular scan failed to verify the tag. Please note: This feature is a demonstration and will be fully functional soon. Click anywhere to close.";
                     }
                 }, 1500);
             }
@@ -301,7 +301,7 @@
                     } catch (error) {
                          console.error('API Error:', error);
                          overlayTitle.textContent = "API Error";
-                         overlayText.textContent = "Could not retrieve sourcing information. Please try again later. Click anywhere to close.";
+                         overlayText.textContent = "Could not retrieve sourcing information. Please note: This feature is a demonstration and will be fully functional soon. Click anywhere to close.";
                     }
                 }
             };
