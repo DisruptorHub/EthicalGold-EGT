@@ -3,9 +3,9 @@
 <!-- Cache Bust Comment: 1 -->
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="Explore the journey of ethically sourced gold with an interactive 3D experience.EthicalGold (EGT) provides transparent, blockchain-verified traceability from mine to market.">
-    <title>EthicalGold (EGT) Hologram</title>
+    <title>EthicalGold (EGT)</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -31,16 +31,18 @@
         }
         .info-box {
             position: absolute;
-            bottom: 80px; 
+            bottom: 20px; 
             left: 50%;
             transform: translateX(-50%);
             background: rgba(18, 24, 30, 0.8);
             border: 1px solid #30363d;
             padding: 0.75rem;
+            /* Add padding to the bottom to account for mobile UI */
+            padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
             border-radius: 12px;
             text-align: center;
             backdrop-filter: blur(5px);
-            width: 80%;
+            width: 90%; /* Use percentage for better mobile scaling */
             max-width: 350px;
             z-index: 10;
         }
@@ -270,3 +272,6 @@
     </script>
 </body>
 </html>
+```
+
+
