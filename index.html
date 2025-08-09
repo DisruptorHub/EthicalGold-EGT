@@ -37,12 +37,11 @@
             background: rgba(18, 24, 30, 0.8);
             border: 1px solid #30363d;
             padding: 0.75rem;
-            /* Add padding to the bottom to account for mobile UI */
             padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
             border-radius: 12px;
             text-align: center;
             backdrop-filter: blur(5px);
-            width: 90%; /* Use percentage for better mobile scaling */
+            width: 90%;
             max-width: 350px;
             z-index: 10;
         }
@@ -50,31 +49,34 @@
             position: absolute;
             background: rgba(18, 24, 30, 0.9);
             border: 1px solid #30363d;
-            padding: 1rem;
+            padding: 1.5rem;
             border-radius: 12px;
             text-align: left;
-            backdrop-filter: blur(5px);
-            width: 250px;
-            max-height: 300px;
-            overflow-y: auto;
+            backdrop-filter: blur(8px);
+            width: 90%;
+            max-width: 450px; /* Centered box for all screen sizes */
+            max-height: 80vh;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
-            transition: opacity 0.5s ease-in-out, visibility 0.5s;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s;
             z-index: 20;
-            pointer-events: none;
+            pointer-events: auto; /* Allow interaction */
+            overflow-y: auto;
         }
          .pillar-info-box.hidden {
             opacity: 0;
             visibility: hidden;
         }
         .pillar-info-box h3 {
-            font-size: 1rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
             color: #ffffff;
         }
         .pillar-info-box p {
-            font-size: 0.85rem;
-            line-height: 1.4;
+            font-size: 1rem;
+            line-height: 1.6;
         }
     </style>
 </head>
@@ -188,6 +190,14 @@
             const pillarInfoText = document.getElementById('pillar-info-text');
 
             function onMouseClick(event) {
+                // If the info box is open, clicking anywhere should close it.
+                if (!pillarInfoBox.classList.contains('hidden')) {
+                     currentPillar = null;
+                     pillarInfoBox.classList.add('hidden');
+                     pillarMeshes.forEach(meshGroup => meshGroup.scale.set(1, 1, 1));
+                     return;
+                }
+
                 mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
                 mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
                 raycaster.setFromCamera(mouse, camera);
@@ -195,32 +205,12 @@
 
                 if (intersects.length > 0) {
                     const clickedPillar = intersects[0].object.parent;
-                    if (currentPillar === clickedPillar) {
-                        currentPillar = null;
-                        pillarInfoBox.classList.add('hidden');
-                    } else {
-                        currentPillar = clickedPillar;
-                        const pillarName = clickedPillar.name.split('-')[1];
-                        
-                        pillarInfoTitle.textContent = pillarName;
-                        pillarInfoText.textContent = pillarInfos[pillarName];
-                        pillarInfoBox.classList.remove('hidden');
-
-                        const pillarScreenPosition = new THREE.Vector3().copy(clickedPillar.position).project(camera);
-                        let infoBoxX = (pillarScreenPosition.x * 0.5 + 0.5) * window.innerWidth;
-                        let infoBoxY = (-pillarScreenPosition.y * 0.5 + 0.5) * window.innerHeight;
-
-                        const offsetX = clickedPillar.position.x > 0 ? -150 : 150;
-                        const offsetY = clickedPillar.position.y > 0 ? 100 : -100;
-                        infoBoxX += offsetX;
-                        infoBoxY += offsetY;
-                        
-                        pillarInfoBox.style.left = `${infoBoxX}px`;
-                        pillarInfoBox.style.top = `${infoBoxY}px`;
-                    }
-                } else {
-                    currentPillar = null;
-                    pillarInfoBox.classList.add('hidden');
+                    currentPillar = clickedPillar;
+                    const pillarName = clickedPillar.name.split('-')[1];
+                    
+                    pillarInfoTitle.textContent = pillarName;
+                    pillarInfoText.textContent = pillarInfos[pillarName];
+                    pillarInfoBox.classList.remove('hidden');
                 }
 
                 pillarMeshes.forEach(meshGroup => meshGroup.scale.set(1, 1, 1));
@@ -231,7 +221,8 @@
             window.addEventListener('click', onMouseClick, false);
 
             const traceToggleButton = document.getElementById('trace-toggle-button');
-            traceToggleButton.addEventListener('click', () => {
+            traceToggleButton.addEventListener('click', (event) => {
+                event.stopPropagation(); // Prevents the main click handler from firing
                 alert("Ethical Sourcing Query coming soon!");
             });
 
@@ -272,6 +263,7 @@
     </script>
 </body>
 </html>
-```
+
+
 
 
