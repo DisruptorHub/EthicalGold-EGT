@@ -14,35 +14,33 @@
             margin: 0;
             overflow: hidden;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column; /* Arrange items vertically */
             height: 100vh;
             background-color: #0d1117;
             color: #c9d1d9;
         }
-        canvas {
-            display: block;
-            touch-action: none;
-        }
         #container {
+            flex-grow: 1; /* Allow the 3D container to fill available space */
             position: relative;
             width: 100vw;
-            height: 100vh;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            touch-action: none;
         }
         .info-box {
-            position: absolute;
-            bottom: 30px; /* Raised for better mobile visibility */
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(18, 24, 30, 0.8);
-            border: 1px solid #30363d;
-            padding: 0.75rem;
-            padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
-            border-radius: 12px;
+            /* This is now the bottom UI bar */
+            flex-shrink: 0; /* Prevent the bar from shrinking */
+            background: #12181e; /* Solid background */
+            border-top: 1px solid #30363d;
+            padding: 1rem;
+            padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+            width: 100%;
             text-align: center;
-            backdrop-filter: blur(5px);
-            width: 90%;
-            max-width: 350px;
             z-index: 10;
         }
         .pillar-info-box {
@@ -81,26 +79,28 @@
     </style>
 </head>
 <body>
-    <div id="container">
-        <div id="main-info-box" class="info-box">
-            <h1 class="text-base font-bold">EthicalGold (EGT)</h1>
-            <div id="trace-toggle-container" class="text-center mt-2">
-                <button id="trace-toggle-button" class="bg-green-600 hover:bg-green-700 p-2 rounded-lg text-white font-bold">Ethical Sourcing Query</button>
-            </div>
+    <div id="container"></div> <!-- 3D Scene Container -->
+    
+    <div id="main-info-box" class="info-box"> <!-- UI Bar Container -->
+        <h1 class="text-base font-bold">EthicalGold (EGT)</h1>
+        <div id="trace-toggle-container" class="text-center mt-2">
+            <button id="trace-toggle-button" class="bg-green-600 hover:bg-green-700 p-2 rounded-lg text-white font-bold">Ethical Sourcing Query</button>
         </div>
-        <div id="pillar-info-display" class="pillar-info-box hidden">
-            <h3 id="pillar-info-title"></h3>
-            <p id="pillar-info-text"></p>
-        </div>
+    </div>
+
+    <!-- This pop-up will now appear over the 3D scene only -->
+    <div id="pillar-info-display" class="pillar-info-box hidden">
+        <h3 id="pillar-info-title"></h3>
+        <p id="pillar-info-text"></p>
     </div>
 
     <script>
         window.onload = function() {
             const container = document.getElementById('container');
             const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setSize(container.clientWidth, container.clientHeight);
             container.appendChild(renderer.domElement);
 
             camera.position.z = 5;
@@ -132,7 +132,7 @@
                 opacity: 0.15,
                 wireframe: true
             });
-            const centralSphere = new THREE.Mesh(new THREE.IcosahedronGeometry(1, 4), holoMaterial); // Start with a base size
+            const centralSphere = new THREE.Mesh(new THREE.IcosahedronGeometry(1, 4), holoMaterial);
             scene.add(centralSphere);
 
             const pillarMeshes = [];
@@ -161,9 +161,8 @@
                 return points.map(p => p.sub(center).multiplyScalar(scale));
             }
 
-            // --- RESPONSIVE LAYOUT FUNCTION ---
             function updateLayout() {
-                const isMobile = window.innerWidth <= 768;
+                const isMobile = container.clientWidth <= 768;
                 const pillarDistance = isMobile ? 1.7 : 2.2;
                 const globeSize = isMobile ? 1.0 : 1.2;
 
@@ -178,7 +177,6 @@
                     mesh.position.copy(pillarPositions[i]);
                 });
             }
-
 
             for (let i = 0; i < 4; i++) {
                 const group = new THREE.Group();
@@ -197,7 +195,7 @@
                 pillarMeshes.push(group);
             }
             
-            updateLayout(); // Initial layout setup
+            updateLayout();
             
             const raycaster = new THREE.Raycaster();
             const mouse = new THREE.Vector2();
@@ -207,6 +205,9 @@
             const pillarInfoTitle = document.getElementById('pillar-info-title');
             const pillarInfoText = document.getElementById('pillar-info-text');
 
+            // The pop-up box now appears inside the main 3D container
+            container.appendChild(pillarInfoBox);
+
             function onMouseClick(event) {
                 if (!pillarInfoBox.classList.contains('hidden')) {
                      currentPillar = null;
@@ -215,8 +216,8 @@
                      return;
                 }
 
-                mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-                mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+                mouse.x = (event.clientX / container.clientWidth) * 2 - 1;
+                mouse.y = - (event.clientY / container.clientHeight) * 2 + 1;
                 raycaster.setFromCamera(mouse, camera);
                 const intersects = raycaster.intersectObjects(pillarMeshes, true);
 
@@ -235,7 +236,7 @@
                     currentPillar.scale.set(1.5, 1.5, 1.5);
                 }
             }
-            window.addEventListener('click', onMouseClick, false);
+            container.addEventListener('click', onMouseClick, false); // Listen for clicks on the container
 
             const traceToggleButton = document.getElementById('trace-toggle-button');
             traceToggleButton.addEventListener('click', (event) => {
@@ -255,10 +256,10 @@
             animate();
             
             window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.aspect = container.clientWidth / container.clientHeight;
                 camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-                updateLayout(); // Update layout on resize
+                renderer.setSize(container.clientWidth, container.clientHeight);
+                updateLayout();
             });
             let isDragging = false;
             let previousMousePosition = { x: 0, y: 0 };
@@ -274,9 +275,9 @@
                 }
             }
             function onDocumentMouseUp() { isDragging = false; }
-            document.addEventListener('mousedown', onDocumentMouseDown, false);
-            document.addEventListener('mousemove', onDocumentMouseMove, false);
-            document.addEventListener('mouseup', onDocumentMouseUp, false);
+            container.addEventListener('mousedown', onDocumentMouseDown, false);
+            container.addEventListener('mousemove', onDocumentMouseMove, false);
+            window.addEventListener('mouseup', onDocumentMouseUp, false); // Listen on window for mouseup
         };
     </script>
 </body>
