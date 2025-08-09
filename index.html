@@ -31,7 +31,7 @@
         }
         .info-box {
             position: absolute;
-            bottom: 20px; 
+            bottom: 30px; /* Raised for better mobile visibility */
             left: 50%;
             transform: translateX(-50%);
             background: rgba(18, 24, 30, 0.8);
@@ -54,14 +54,14 @@
             text-align: left;
             backdrop-filter: blur(8px);
             width: 90%;
-            max-width: 450px; /* Centered box for all screen sizes */
+            max-width: 450px;
             max-height: 80vh;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             transition: opacity 0.3s ease-in-out, visibility 0.3s;
             z-index: 20;
-            pointer-events: auto; /* Allow interaction */
+            pointer-events: auto;
             overflow-y: auto;
         }
          .pillar-info-box.hidden {
@@ -136,10 +136,17 @@
             scene.add(centralSphere);
 
             const pillarMeshes = [];
+            
+            // --- RESPONSIVE 3D LAYOUT ---
+            const isMobile = window.innerWidth <= 768;
+            const pillarDistance = isMobile ? 1.7 : 2.2; // Use a smaller distance on mobile
+            
             const pillarPositions = [
-                new THREE.Vector3(0, 1.9, 0), new THREE.Vector3(1.9, 0, 0),
-                new THREE.Vector3(0, -1.9, 0), new THREE.Vector3(-1.9, 0, 0)
+                new THREE.Vector3(0, pillarDistance, 0), new THREE.Vector3(pillarDistance, 0, 0),
+                new THREE.Vector3(0, -pillarDistance, 0), new THREE.Vector3(-pillarDistance, 0, 0)
             ];
+            // --- END RESPONSIVE LAYOUT ---
+
             const pillarColors = [0x8a7905, 0x4caf50, 0x0077b6, 0xffa500];
             const pillarPillarNames = ["Immutable Traceability & Integrity", "Empowering Artisanal Communities", "Decentralized Governance & Community Ownership", "Sustainable & Ethical Global Standard"];
             const pillarInfos = {
@@ -190,7 +197,6 @@
             const pillarInfoText = document.getElementById('pillar-info-text');
 
             function onMouseClick(event) {
-                // If the info box is open, clicking anywhere should close it.
                 if (!pillarInfoBox.classList.contains('hidden')) {
                      currentPillar = null;
                      pillarInfoBox.classList.add('hidden');
@@ -222,7 +228,7 @@
 
             const traceToggleButton = document.getElementById('trace-toggle-button');
             traceToggleButton.addEventListener('click', (event) => {
-                event.stopPropagation(); // Prevents the main click handler from firing
+                event.stopPropagation();
                 alert("Ethical Sourcing Query coming soon!");
             });
 
@@ -263,6 +269,8 @@
     </script>
 </body>
 </html>
+```
+
 
 
 
