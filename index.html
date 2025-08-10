@@ -31,13 +31,13 @@
         }
         .overlay-box {
             position: absolute;
-            background: rgba(18, 24, 30, 0.8);
+            background: rgba(18, 24, 30, 0.9);
             border: 1px solid #30363d;
-            padding: 1.25rem;
+            padding: 1.5rem;
             border-radius: 12px;
             backdrop-filter: blur(8px);
             width: 90%;
-            max-width: 400px;
+            max-width: 500px;
             max-height: 80vh;
             top: 50%;
             left: 50%;
@@ -52,14 +52,31 @@
             visibility: hidden;
         }
         .overlay-box h3 {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 0.75rem;
+            margin-bottom: 1rem;
             color: #ffffff;
+            text-align: center;
         }
-        .overlay-box p {
+        .overlay-box h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #4dd8ff;
+        }
+        .overlay-box p, .overlay-box ul {
             font-size: 1rem;
             line-height: 1.6;
+            text-align: left;
+        }
+        .overlay-box ul {
+            list-style-type: '— '; /* Modern bullet point style */
+            padding-left: 1rem;
+        }
+         .overlay-box li {
+            padding-left: 0.5rem;
+            margin-bottom: 0.5rem;
         }
         .overlay-box button {
              background-color: #4dd8ff;
@@ -110,17 +127,15 @@
             <button id="whitepaper-icon" title="White Paper">
                 <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
             </button>
-            <button id="tokenomics-icon" title="Tokenomics">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-12h2v4h-2zm0 6h2v2h-2z"/></svg>
+            <button id="roadmap-icon" title="Roadmap">
+                <svg viewBox="0 0 24 24"><path d="M22.5 13.06c-.35 1.5-.98 2.87-1.84 4.09l.4 1.61c.1.41-.33.78-.74.61l-1.83-.78c-.75.39-1.56.69-2.41.9L15.5 22H8.5l-.48-2.42c-.85-.21-1.66-.51-2.41-.9l-1.83.78c-.41.17-.84-.2-.74-.61l.4-1.61c-.86-1.22-1.49-2.59-1.84-4.09H1V11h2.16c.35-1.5.98-2.87 1.84-4.09l-.4-1.61c-.1-.41.33-.78.74-.61l1.83.78c.75-.39 1.56-.69 2.41-.9L8.5 2h7l.48 2.42c.85.21 1.66.51 2.41.9l1.83-.78c.41-.17.84.2.74.61l-.4 1.61c.86 1.22 1.49 2.59 1.84 4.09H23v2.06h-2.5zm-10.5-2.06c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
             </button>
              <button id="community-icon" title="Community">
                 <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
             </button>
         </div>
         <div id="overlay-box" class="overlay-box hidden">
-            <h3 id="overlay-title"></h3>
-            <p id="overlay-text"></p>
-            <div id="overlay-button-container"></div>
+            <!-- Content will be injected here by JavaScript -->
         </div>
     </div>
 
@@ -166,10 +181,10 @@
 
             const pillarMeshes = [];
             const pillarInfos = {
-                "Immutable Traceability & Integrity": { type: 'pillar', text: "Our authentication platform, EthicalGold, uses a dual QR code and NFC chip on a secure, tamper-evident physical tag..." },
-                "Empowering Artisanal Communities": { type: 'pillar', text: "A core function of EthicalGold is to directly uplift artisanal miners through secure and fair payment rails..." },
-                "Decentralized Governance & Community Ownership": { type: 'pillar', text: "The EthicalGold project is built on a foundation of decentralization, with control and decision-making gradually transitioning to the community through a DAO..." },
-                "Sustainable & Ethical Global Standard": { type: 'pillar', text: "EthicalGold is committed to responsible practices that benefit both people and the planet..." },
+                "Immutable Traceability & Integrity": { type: 'pillar', content: `<h3>Immutable Traceability & Integrity</h3><p>Our authentication platform, EthicalGold, uses a dual QR code and NFC chip on a secure, tamper-evident physical tag. This tag serves as a secure bridge to an immutable blockchain ledger, providing an unchangeable and transparent record of every gram of gold from its origin. This ensures the integrity of the supply chain and provides buyers with indisputable proof of ethical sourcing, making EGT the standard for trustworthy gold.</p>` },
+                "Empowering Artisanal Communities": { type: 'pillar', content: `<h3>Empowering Artisanal Communities</h3><p>A core function of EthicalGold is to directly uplift artisanal miners. Through secure and fair payment rails, and by providing essential tools and training, EGT empowers these communities economically, fostering social impact that adds intrinsic value to the gold and the token itself. Our tokenomics incentivize usage, not long-term holding, ensuring the platform's utility is the primary focus. The DApp includes features like 'Miner Spotlights,' where the community can see the faces and stories of the miners their investment is helping.</p>` },
+                "Decentralized Governance & Community Ownership": { type: 'pillar', content: `<h3>Decentralized Governance & Community Ownership</h3><p>The EthicalGold project is built on a foundation of decentralization, with control and decision-making gradually transitioning to the community through a DAO. This ensures long-term sustainability, community alignment, and provides token holders with a direct voice in the project's evolution, securing the future of their investment. We will not make promises about the project's future value based on the team's efforts, as the value will be a byproduct of the network's adoption and usage.</p>` },
+                "Sustainable & Ethical Global Standard": { type: 'pillar', content: `<h3>Sustainable & Ethical Global Standard</h3><p>EthicalGold is committed to responsible practices that benefit both people and the planet. By championing ethical sourcing, EGT aims to become the global standard for responsible gold, integrating with a broader ecosystem of ethical goods and positioning the token as a leader in sustainable commerce. We will only source gold from partners who adhere to international standards and the African Union's Pan-African ResourceReporting Code (PARC).</p>` },
             };
             
             const constellationShapes = [
@@ -225,22 +240,45 @@
             const mouse = new THREE.Vector2();
             let currentSelection = null;
             const overlayBox = document.getElementById('overlay-box');
-            const overlayTitle = document.getElementById('overlay-title');
-            const overlayText = document.getElementById('overlay-text');
-            const overlayButtonContainer = document.getElementById('overlay-button-container');
+            
+            const whitePaperContent = `
+                <h3>EthicalGold (EGT) White Paper</h3>
+                <h4>Abstract</h4>
+                <p>EthicalGold (EGT) is a decentralized protocol designed to bring unparalleled transparency, traceability, and ethical accountability to the global gold supply chain. By leveraging a unique dual-authentication system combining secure, tamper-evident physical tags (NFC/QR) with an immutable blockchain ledger, EGT provides a verifiable record of gold's journey from mine to market. Our mission is to empower consumers, validate ethical sourcing, and create a new global standard for responsible gold.</p>
+                <h4>1. Introduction</h4>
+                <p>The traditional gold market, while valuable, is plagued by opacity. Consumers and investors have limited visibility into a gold bar's true origin, often unknowingly contributing to unethical mining practices, environmental damage, and illicit trade. This lack of transparency undermines trust and prevents true value from being assigned to ethically sourced materials.</p>
+                <h4>2. The Solution: Our Four Pillars</h4>
+                <p>EthicalGold is built on four foundational pillars that work in concert to create a secure, transparent, and ethical ecosystem: Immutable Traceability & Integrity, Empowering Artisanal Communities, Decentralized Governance & Community Ownership, and a Sustainable & Ethical Global Standard.</p>
+                <h4>3. The EGT Token</h4>
+                <p>The EGT token is the native utility token of the EthicalGold ecosystem. It is designed to be a consumptive asset, with its value derived from its utility within the platform, such as paying for verification services and participating in governance—not from speculation.</p>
+                <h4>4. Conclusion</h4>
+                <p>EthicalGold represents a paradigm shift in the precious metals industry. By marrying cutting-edge technology with a commitment to ethical principles, we can create a gold standard that is not only valuable but also virtuous. We invite you to join us in building a new future for gold.</p>
+            `;
+            const roadmapContent = `
+                <h3>Project Roadmap</h3>
+                <h4>Phase 1: Foundation & Prototype (Complete)</h4>
+                <p>Development of the core concept, white paper, and this interactive visual demonstration.</p>
+                <h4>Phase 2: Partnership & Platform Development (Current)</h4>
+                <p>Secure initial partnerships with artisanal mines and begin development of the blockchain-based traceability platform.</p>
+                <h4>Phase 3: Testnet & Community Building</h4>
+                <p>Launch a public testnet for community feedback and expand our social and community presence.</p>
+                <h4>Phase 4: Public Launch & Ecosystem Growth</h4>
+                <p>Official launch of the EthicalGold traceability platform, enabling public verification of assets. Focus on expanding our network of partners and growing the ecosystem's utility.</p>
+            `;
 
-            function showOverlay(title, text, button_text = null, button_link = null, textAlign = 'left') {
-                overlayBox.style.textAlign = textAlign;
-                overlayTitle.textContent = title;
-                overlayText.textContent = text;
-                if (button_text && button_link) {
-                    overlayButtonContainer.innerHTML = `<button id="overlay-button">${button_text}</button>`;
+            const iconData = {
+                "White Paper": { type: 'document', content: whitePaperContent },
+                "Roadmap": { type: 'document', content: roadmapContent },
+                "Community": { type: 'link', content: "<h3>Community</h3><p style='text-align: center;'>Join the conversation and connect with the EthicalGold community on our social platforms.</p><button id='overlay-button'>Join our Discord</button>", buttonLink: "#" }
+            };
+
+            function showOverlay(htmlContent) {
+                overlayBox.innerHTML = htmlContent;
+                if (document.getElementById('overlay-button')) {
                     document.getElementById('overlay-button').addEventListener('click', (e) => {
                         e.stopPropagation();
-                        window.open(button_link, '_blank');
+                        window.open(iconData.Community.buttonLink, '_blank');
                     });
-                } else {
-                    overlayButtonContainer.innerHTML = '';
                 }
                 overlayBox.classList.remove('hidden');
             }
@@ -252,7 +290,6 @@
                      pillarMeshes.forEach(meshGroup => meshGroup.scale.set(1, 1, 1));
                      return;
                 }
-
                 mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
                 mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
                 raycaster.setFromCamera(mouse, camera);
@@ -264,13 +301,11 @@
                     const clickedPillar = pillarIntersects[0].object.parent;
                     currentSelection = clickedPillar;
                     const pillarName = clickedPillar.name.split('-')[1];
-                    showOverlay(pillarName, pillarInfos[pillarName].text);
+                    showOverlay(pillarInfos[pillarName].content);
                 } else if (sphereIntersect.length > 0) {
                      currentSelection = centralSphere;
                      showOverlay(
-                        "Ethical Sourcing Query",
-                        "This feature is currently in development. Soon, you will be able to verify gold assets in real-time using molecular tags.",
-                        null, null, 'center'
+                        "<h3>Ethical Sourcing Query</h3><p style='text-align:center;'>This feature is currently in development. Soon, you will be able to verify gold assets in real-time using molecular tags.</p>"
                      );
                 }
 
@@ -281,24 +316,17 @@
             }
             container.addEventListener('click', onMouseClick, false);
 
-            // --- Icon Menu Listeners ---
-            const iconData = {
-                "White Paper": { text: "Explore the foundational document of the EthicalGold project, detailing our vision, technology, and roadmap.", buttonText: "Read Full White Paper", buttonLink: "https://github.com/DisruptorHub/EthicalGold-EGT/blob/main/whitepaper.md" },
-                "Tokenomics": { text: "Learn about the EGT token's utility, distribution, and the economic model designed to support a sustainable and ethical ecosystem.", buttonText: "Learn More", buttonLink: "#" },
-                "Community": { text: "Join the conversation and connect with the EthicalGold community on our social platforms.", buttonText: "Join our Discord", buttonLink: "#" }
-            };
-
             document.getElementById('whitepaper-icon').addEventListener('click', (e) => {
                 e.stopPropagation();
-                showOverlay("White Paper", iconData["White Paper"].text, iconData["White Paper"].buttonText, iconData["White Paper"].buttonLink, 'center');
+                showOverlay(iconData["White Paper"].content);
             });
-            document.getElementById('tokenomics-icon').addEventListener('click', (e) => {
+            document.getElementById('roadmap-icon').addEventListener('click', (e) => {
                 e.stopPropagation();
-                showOverlay("Tokenomics", iconData["Tokenomics"].text, iconData["Tokenomics"].buttonText, iconData["Tokenomics"].buttonLink, 'center');
+                showOverlay(iconData["Roadmap"].content);
             });
             document.getElementById('community-icon').addEventListener('click', (e) => {
                 e.stopPropagation();
-                showOverlay("Community", iconData["Community"].text, iconData["Community"].buttonText, iconData["Community"].buttonLink, 'center');
+                showOverlay(iconData["Community"].content);
             });
 
             function animate() {
@@ -339,7 +367,4 @@
 </body>
 </html>
 ```
-
-
-
 
