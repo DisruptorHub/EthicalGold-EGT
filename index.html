@@ -71,11 +71,52 @@
              display: block;
              margin: 1.5rem auto 0;
         }
+        /* Icon Menu Styles */
+        #icon-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(18, 24, 30, 0.5);
+            backdrop-filter: blur(5px);
+            border: 1px solid #30363d;
+            border-radius: 999px;
+            padding: 10px;
+            z-index: 10;
+        }
+        #icon-menu button {
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+        #icon-menu button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        #icon-menu svg {
+            width: 24px;
+            height: 24px;
+            fill: #c9d1d9;
+        }
     </style>
 </head>
 <body>
     <div id="container">
-        <!-- This pop-up will now be used for all info displays -->
+        <div id="icon-menu">
+            <button id="whitepaper-icon" title="White Paper">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+            </button>
+            <button id="tokenomics-icon" title="Tokenomics">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-12h2v4h-2zm0 6h2v2h-2z"/></svg>
+            </button>
+             <button id="community-icon" title="Community">
+                <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+            </button>
+        </div>
         <div id="overlay-box" class="overlay-box hidden">
             <h3 id="overlay-title"></h3>
             <p id="overlay-text"></p>
@@ -123,77 +164,59 @@
             centralSphere.name = "central-sphere";
             scene.add(centralSphere);
 
-            const interactiveElements = [];
-            const elementInfos = {
-                "Immutable Traceability & Integrity": {
-                    type: 'pillar',
-                    text: "Our authentication platform, EthicalGold, uses a dual QR code and NFC chip on a secure, tamper-evident physical tag. This tag serves as a secure bridge to an immutable blockchain ledger, providing an unchangeable and transparent record of every gram of gold from its origin. This ensures the integrity of the supply chain and provides buyers with indisputable proof of ethical sourcing, making EGT the standard for trustworthy gold."
-                },
-                "Empowering Artisanal Communities": {
-                    type: 'pillar',
-                    text: "A core function of EthicalGold is to directly uplift artisanal miners. Through secure and fair payment rails, and by providing essential tools and training, EGT empowers these communities economically, fostering social impact that adds intrinsic value to the gold and the token itself. Our tokenomics incentivize usage, not long-term holding, ensuring the platform's utility is the primary focus. The DApp includes features like 'Miner Spotlights,' where the community can see the faces and stories of the miners their investment is helping."
-                },
-                "Decentralized Governance & Community Ownership": {
-                    type: 'pillar',
-                    text: "The EthicalGold project is built on a foundation of decentralization, with control and decision-making gradually transitioning to the community through a DAO. This ensures long-term sustainability, community alignment, and provides token holders with a direct voice in the project's evolution, securing the future of their investment. We will not make promises about the project's future value based on the team's efforts, as the value will be a byproduct of the network's adoption and usage."
-                },
-                "Sustainable & Ethical Global Standard": {
-                    type: 'pillar',
-                    text: "EthicalGold is committed to responsible practices that benefit both people and the planet. By championing ethical sourcing, EGT aims to become the global standard for responsible gold, integrating with a broader ecosystem of ethical goods and positioning the token as a leader in sustainable commerce. We will only source gold from partners who adhere to international standards and the African Union's Pan-African ResourceReporting Code (PARC)."
-                }
+            const pillarMeshes = [];
+            const pillarInfos = {
+                "Immutable Traceability & Integrity": { type: 'pillar', text: "Our authentication platform, EthicalGold, uses a dual QR code and NFC chip on a secure, tamper-evident physical tag..." },
+                "Empowering Artisanal Communities": { type: 'pillar', text: "A core function of EthicalGold is to directly uplift artisanal miners through secure and fair payment rails..." },
+                "Decentralized Governance & Community Ownership": { type: 'pillar', text: "The EthicalGold project is built on a foundation of decentralization, with control and decision-making gradually transitioning to the community through a DAO..." },
+                "Sustainable & Ethical Global Standard": { type: 'pillar', text: "EthicalGold is committed to responsible practices that benefit both people and the planet..." },
             };
             
-            const elementShapes = [
-                // Pillars
+            const constellationShapes = [
                 [new THREE.Vector3(0, 0.2, 0), new THREE.Vector3(0.5, 0.5, 0.5), new THREE.Vector3(-0.5, 0.5, -0.5), new THREE.Vector3(0, -0.5, 0)],
                 [new THREE.Vector3(-0.5, 0.5, 0), new THREE.Vector3(0.5, 0.5, 0), new THREE.Vector3(0.5, -0.5, 0), new THREE.Vector3(-0.5, -0.5, 0)],
                 [new THREE.Vector3(0, 0.6, 0), new THREE.Vector3(-0.5, 0, 0), new THREE.Vector3(0.5, 0, 0), new THREE.Vector3(0, -0.6, 0)],
                 [new THREE.Vector3(0.0, 0.0, 0), new THREE.Vector3(0.6, 0.3, 0), new THREE.Vector3(0.3, 0.6, 0), new THREE.Vector3(-0.3, 0.6, 0), new THREE.Vector3(-0.6, 0.3, 0), new THREE.Vector3(-0.6, -0.3,0), new THREE.Vector3(-0.3, -0.6,0), new THREE.Vector3(0.3,-0.6,0), new THREE.Vector3(0.6,-0.3,0)]
             ];
-            const elementColors = [0x8a7905, 0x4caf50, 0x0077b6, 0xffa500];
-            const elementNames = Object.keys(elementInfos);
-            interactiveElements.push(centralSphere);
+            const pillarColors = [0x8a7905, 0x4caf50, 0x0077b6, 0xffa500];
+            const pillarNames = Object.keys(pillarInfos);
 
-            function normalizeAndScale(points) {
+            function normalizeAndScale(points, scaleFactor = 0.5) {
                 const box = new THREE.Box3().setFromPoints(points);
                 const center = box.getCenter(new THREE.Vector3());
                 const size = box.getSize(new THREE.Vector3());
                 const maxDim = Math.max(size.x, size.y, size.z);
-                const scale = 0.7 / maxDim;
+                const scale = scaleFactor / maxDim;
                 return points.map(p => p.sub(center).multiplyScalar(scale));
             }
 
             function updateLayout() {
                 const isMobile = window.innerWidth <= 768;
-                const pillarDistance = isMobile ? 1.9 : 2.4;
+                const pillarDist = isMobile ? 1.9 : 2.4;
                 const globeSize = isMobile ? 1.0 : 1.2;
                 centralSphere.scale.set(globeSize, globeSize, globeSize);
 
-                const elementPositions = [
-                    new THREE.Vector3(0, pillarDistance, 0),
-                    new THREE.Vector3(pillarDistance, 0, 0),
-                    new THREE.Vector3(0, -pillarDistance, 0),
-                    new THREE.Vector3(-pillarDistance, 0, 0)
+                const pillarPositions = [
+                    new THREE.Vector3(0, pillarDist, 0), new THREE.Vector3(pillarDist, 0, 0),
+                    new THREE.Vector3(0, -pillarDist, 0), new THREE.Vector3(-pillarDist, 0, 0)
                 ];
-                interactiveElements.filter(el => el.name.startsWith('element-')).forEach((mesh, i) => { 
-                    mesh.position.copy(elementPositions[i]);
-                });
+                pillarMeshes.forEach((mesh, i) => { mesh.position.copy(pillarPositions[i]); });
             }
 
-            for (let i = 0; i < elementNames.length; i++) {
+            for (let i = 0; i < pillarNames.length; i++) {
                 const group = new THREE.Group();
-                const normalizedPoints = normalizeAndScale(elementShapes[i]);
-                const lineMaterial = new THREE.LineBasicMaterial({ color: elementColors[i], transparent: true, opacity: 0.7 });
+                const normalizedPoints = normalizeAndScale(constellationShapes[i], 0.7);
+                const lineMaterial = new THREE.LineBasicMaterial({ color: pillarColors[i], transparent: true, opacity: 0.8 });
                 const lineGeometry = new THREE.BufferGeometry().setFromPoints(normalizedPoints);
                 const line = new THREE.Line(lineGeometry, lineMaterial);
                 group.add(line);
-                const pointsMaterial = new THREE.PointsMaterial({ color: elementColors[i], size: 0.1, sizeAttenuation: true });
+                const pointsMaterial = new THREE.PointsMaterial({ color: pillarColors[i], size: 0.1, sizeAttenuation: true });
                 const pointsGeometry = new THREE.BufferGeometry().setFromPoints(normalizedPoints);
                 const points = new THREE.Points(pointsGeometry, pointsMaterial);
                 group.add(points);
-                group.name = `element-${elementNames[i]}`;
+                group.name = `pillar-${pillarNames[i]}`;
                 scene.add(group);
-                interactiveElements.push(group);
+                pillarMeshes.push(group);
             }
             
             updateLayout();
@@ -206,112 +229,84 @@
             const overlayText = document.getElementById('overlay-text');
             const overlayButtonContainer = document.getElementById('overlay-button-container');
 
+            function showOverlay(title, text, button_text = null, button_link = null, textAlign = 'left') {
+                overlayBox.style.textAlign = textAlign;
+                overlayTitle.textContent = title;
+                overlayText.textContent = text;
+                if (button_text && button_link) {
+                    overlayButtonContainer.innerHTML = `<button id="overlay-button">${button_text}</button>`;
+                    document.getElementById('overlay-button').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        window.open(button_link, '_blank');
+                    });
+                } else {
+                    overlayButtonContainer.innerHTML = '';
+                }
+                overlayBox.classList.remove('hidden');
+            }
+
             function onMouseClick(event) {
                 if (!overlayBox.classList.contains('hidden')) {
                      currentSelection = null;
                      overlayBox.classList.add('hidden');
-                     interactiveElements.filter(el => el.name).forEach(meshGroup => meshGroup.scale.set(1, 1, 1));
+                     pillarMeshes.forEach(meshGroup => meshGroup.scale.set(1, 1, 1));
                      return;
                 }
 
                 mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
                 mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
                 raycaster.setFromCamera(mouse, camera);
-                const intersects = raycaster.intersectObjects(interactiveElements, true);
+                
+                const pillarIntersects = raycaster.intersectObjects(pillarMeshes, true);
+                const sphereIntersect = raycaster.intersectObject(centralSphere);
 
-                if (intersects.length > 0) {
-                    const clickedObject = intersects[0].object.name === 'central-sphere' ? intersects[0].object : intersects[0].object.parent;
-                    currentSelection = clickedObject;
-
-                    if (clickedObject.name === 'central-sphere') {
-                        overlayBox.style.textAlign = 'center';
-                        overlayTitle.textContent = "Ethical Sourcing Query";
-                        overlayText.textContent = "Click the button below to simulate a molecular scan and verify the traceability of a gold asset.";
-                        overlayButtonContainer.innerHTML = '<button id="scan-button">Scan Molecular Tag</button>';
-                        document.getElementById('scan-button').addEventListener('click', (e) => {
-                            e.stopPropagation();
-                            triggerMolecularScan();
-                        });
-                        overlayBox.classList.remove('hidden');
-                    } else {
-                        overlayBox.style.textAlign = 'left';
-                        const elementName = clickedObject.name.split('-')[1];
-                        const info = elementInfos[elementName];
-                        
-                        overlayTitle.textContent = elementName;
-                        overlayText.textContent = info.text;
-                        overlayButtonContainer.innerHTML = '';
-                        overlayBox.classList.remove('hidden');
-                    }
+                if (pillarIntersects.length > 0) {
+                    const clickedPillar = pillarIntersects[0].object.parent;
+                    currentSelection = clickedPillar;
+                    const pillarName = clickedPillar.name.split('-')[1];
+                    showOverlay(pillarName, pillarInfos[pillarName].text);
+                } else if (sphereIntersect.length > 0) {
+                     currentSelection = centralSphere;
+                     showOverlay(
+                        "Ethical Sourcing Query",
+                        "This feature is currently in development. Soon, you will be able to verify gold assets in real-time using molecular tags.",
+                        null, null, 'center'
+                     );
                 }
 
-                interactiveElements.filter(el => el.name).forEach(meshGroup => meshGroup.scale.set(1, 1, 1));
-                if(currentSelection && currentSelection.name.startsWith('element-')) { currentSelection.scale.set(1.5, 1.5, 1.5); }
+                pillarMeshes.forEach(meshGroup => meshGroup.scale.set(1, 1, 1));
+                if(currentSelection && pillarMeshes.includes(currentSelection)) { 
+                    currentSelection.scale.set(1.5, 1.5, 1.5);
+                }
             }
             container.addEventListener('click', onMouseClick, false);
 
-            function triggerMolecularScan() {
-                overlayTitle.textContent = "Scanning...";
-                overlayText.textContent = "Simulating molecular tag verification...";
-                overlayButtonContainer.innerHTML = "";
-
-                const dummyScans = [{id: "EGT-A1B2C3D4", success: true}, {id: "EGT-X9Y8Z7W6", success: false}];
-                const randomScan = dummyScans[Math.floor(Math.random() * dummyScans.length)];
-
-                setTimeout(() => {
-                    if (randomScan.success) {
-                        geminiTrace(randomScan.id);
-                    } else {
-                        overlayTitle.textContent = "Scan Failed";
-                        overlayText.textContent = "The molecular scan failed to verify the tag. Please note: This feature is a demonstration and will be fully functional soon. Click anywhere to close.";
-                    }
-                }, 1500);
-            }
-
-            const geminiTrace = async (goldId) => {
-                overlayTitle.textContent = `Querying for ${goldId}...`;
-                overlayText.textContent = "";
-
-                const dummyData = {
-                    "EGT-A1B2C3D4": { mine: "Obuasi Gold Mine, Ghana", ethical_certifications: "Fairmined, PARC Compliant", journey: "Verified by molecular tag scan (2025) -> Refined at a certified refinery in Accra -> Transported to secure vault in Johannesburg -> Tokenized on EGT blockchain." },
-                    "EGT-X9Y8Z7W6": { mine: "Tanzania Gold Mine, Tanzania", ethical_certifications: "No known certifications", journey: "Verified by molecular tag scan (2024) -> Refined locally -> Illicitly traded -> Unknown origin." }
-                };
-
-                const data = dummyData[goldId];
-                if (data) {
-                    const prompt = `For Gold Bar ID ${goldId}, provide a detailed, easy-to-read summary. Emphasize integrity and traceability with clear headings and bullet points. Do not give investment advice. Focus on the gold's journey as a consumptive asset. Highlight molecular scan and blockchain verification. If data is poor, state risks factually. Data: Mine: ${data.mine}, Certs: ${data.ethical_certifications}, Journey: ${data.journey}`;
-                    
-                    try {
-                        let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
-                        const payload = { contents: chatHistory };
-                        const apiKey = ""; 
-                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-                        const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-
-                        if (!response.ok) throw new Error(`API call failed with status: ${response.status}`);
-                        const result = await response.json();
-
-                        if (result.candidates && result.candidates[0]?.content?.parts[0]) {
-                            const text = result.candidates[0].content.parts[0].text;
-                            overlayTitle.textContent = `Summary: ${goldId}`;
-                            overlayText.textContent = text;
-                        } else {
-                            throw new Error('Invalid API response');
-                        }
-                    } catch (error) {
-                         console.error('API Error:', error);
-                         overlayTitle.textContent = "API Error";
-                         overlayText.textContent = "Could not retrieve sourcing information. Please note: This feature is a demonstration and will be fully functional soon. Click anywhere to close.";
-                    }
-                }
+            // --- Icon Menu Listeners ---
+            const iconData = {
+                "White Paper": { text: "Explore the foundational document of the EthicalGold project, detailing our vision, technology, and roadmap.", buttonText: "Read Full White Paper", buttonLink: "https://github.com/DisruptorHub/EthicalGold-EGT/blob/main/whitepaper.md" },
+                "Tokenomics": { text: "Learn about the EGT token's utility, distribution, and the economic model designed to support a sustainable and ethical ecosystem.", buttonText: "Learn More", buttonLink: "#" },
+                "Community": { text: "Join the conversation and connect with the EthicalGold community on our social platforms.", buttonText: "Join our Discord", buttonLink: "#" }
             };
+
+            document.getElementById('whitepaper-icon').addEventListener('click', (e) => {
+                e.stopPropagation();
+                showOverlay("White Paper", iconData["White Paper"].text, iconData["White Paper"].buttonText, iconData["White Paper"].buttonLink, 'center');
+            });
+            document.getElementById('tokenomics-icon').addEventListener('click', (e) => {
+                e.stopPropagation();
+                showOverlay("Tokenomics", iconData["Tokenomics"].text, iconData["Tokenomics"].buttonText, iconData["Tokenomics"].buttonLink, 'center');
+            });
+            document.getElementById('community-icon').addEventListener('click', (e) => {
+                e.stopPropagation();
+                showOverlay("Community", iconData["Community"].text, iconData["Community"].buttonText, iconData["Community"].buttonLink, 'center');
+            });
 
             function animate() {
                 requestAnimationFrame(animate);
                 centralSphere.rotation.x += 0.005;
                 centralSphere.rotation.y += 0.005;
                 if (starField) starField.rotation.y -= 0.0002;
-                interactiveElements.filter(el => el.name).forEach((mesh, i) => mesh.rotation.y += 0.002 + (i * 0.0005));
+                pillarMeshes.forEach((mesh, i) => mesh.rotation.y += 0.002 + (i * 0.0005));
                 renderer.render(scene, camera);
             }
             animate();
@@ -344,6 +339,7 @@
 </body>
 </html>
 ```
+
 
 
 
