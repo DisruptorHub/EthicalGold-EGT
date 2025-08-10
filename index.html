@@ -173,10 +173,10 @@
 
             const pillarMeshes = [];
             const pillarInfos = {
-                "Immutable Traceability & Integrity": { type: 'pillar', content: `<h3>Immutable Traceability & Integrity</h3><p>Our authentication platform, EthicalGold, uses a dual QR code and NFC chip on a secure, tamper-evident physical tag...</p>` },
-                "Empowering Artisanal Communities": { type: 'pillar', content: `<h3>Empowering Artisanal Communities</h3><p>A core function of EthicalGold is to directly uplift artisanal miners through secure and fair payment rails...</p><ul><li>Secure and fair payment rails.</li><li>Providing essential tools and training.</li><li>'Miner Spotlights' in our DApp to share the stories of those you support.</li></ul>` },
-                "Decentralized Governance & Community Ownership": { type: 'pillar', content: `<h3>Decentralized Governance & Community Ownership</h3><p>The EthicalGold project is built on a foundation of decentralization, with control and decision-making gradually transitioning to the community through a DAO, giving token holders a direct voice in the project's evolution.</p>` },
-                "Sustainable & Ethical Global Standard": { type: 'pillar', content: `<h3>Sustainable & Ethical Global Standard</h3><p>We are committed to responsible practices that benefit both people and the planet. By championing ethical sourcing, EGT aims to become the global standard for responsible gold, partnering only with those who adhere to the highest international standards.</p>` },
+                "Immutable Traceability & Integrity": { type: 'pillar', content: `<h3>Immutable Traceability & Integrity</h3><p>Our authentication platform, EthicalGold, uses a dual QR code and NFC chip on a secure, tamper-evident physical tag. This tag serves as a secure bridge to an immutable blockchain ledger, providing an unchangeable and transparent record of every gram of gold from its origin. This ensures the integrity of the supply chain and provides buyers with indisputable proof of ethical sourcing, making EGT the standard for trustworthy gold.</p>` },
+                "Empowering Artisanal Communities": { type: 'pillar', content: `<h3>Empowering Artisanal Communities</h3><p>A core function of EthicalGold is to directly uplift artisanal miners. Through secure and fair payment rails, and by providing essential tools and training, EGT empowers these communities economically, fostering social impact that adds intrinsic value to the gold and the token itself. Our tokenomics incentivize usage, not long-term holding, ensuring the platform's utility is the primary focus. The DApp includes features like 'Miner Spotlights,' where the community can see the faces and stories of the miners their investment is helping.</p>` },
+                "Decentralized Governance & Community Ownership": { type: 'pillar', content: `<h3>Decentralized Governance & Community Ownership</h3><p>The EthicalGold project is built on a foundation of decentralization, with control and decision-making gradually transitioning to the community through a DAO. This ensures long-term sustainability, community alignment, and provides token holders with a direct voice in the project's evolution, securing the future of their investment. We will not make promises about the project's future value based on the team's efforts, as the value will be a byproduct of the network's adoption and usage.</p>` },
+                "Sustainable & Ethical Global Standard": { type: 'pillar', content: `<h3>Sustainable & Ethical Global Standard</h3><p>EthicalGold is committed to responsible practices that benefit both people and the planet. By championing ethical sourcing, EGT aims to become the global standard for responsible gold, integrating with a broader ecosystem of ethical goods and positioning the token as a leader in sustainable commerce. We will only source gold from partners who adhere to international standards and the African Union's Pan-African ResourceReporting Code (PARC).</p>` },
             };
             
             const constellationShapes = [
@@ -199,8 +199,8 @@
 
             function updateLayout() {
                 const isMobile = window.innerWidth <= 768;
-                const pillarDist = isMobile ? 1.9 : 2.4;
-                const globeSize = isMobile ? 1.0 : 1.2;
+                const pillarDist = isMobile ? 1.8 : 2.4; // Pulled in for mobile
+                const globeSize = isMobile ? 0.9 : 1.2; // Shrunk for mobile
                 centralSphere.scale.set(globeSize, globeSize, globeSize);
 
                 const pillarPositions = [
@@ -236,11 +236,15 @@
             const whitePaperContent = `
                 <h3>EthicalGold (EGT) White Paper</h3>
                 <h4>Abstract</h4>
-                <p>EthicalGold (EGT) is a decentralized protocol designed to bring unparalleled transparency, traceability, and ethical accountability to the global gold supply chain...</p>
+                <p>EthicalGold (EGT) is a decentralized protocol designed to bring unparalleled transparency, traceability, and ethical accountability to the global gold supply chain. By leveraging a unique dual-authentication system combining secure, tamper-evident physical tags (NFC/QR) with an immutable blockchain ledger, EGT provides a verifiable record of gold's journey from mine to market. Our mission is to empower consumers, validate ethical sourcing, and create a new global standard for responsible gold.</p>
                 <h4>1. Introduction</h4>
-                <p>The traditional gold market, while valuable, is plagued by opacity. Consumers and investors have limited visibility into a gold bar's true origin...</p>
+                <p>The traditional gold market, while valuable, is plagued by opacity. Consumers and investors have limited visibility into a gold bar's true origin, often unknowingly contributing to unethical mining practices, environmental damage, and illicit trade. This lack of transparency undermines trust and prevents true value from being assigned to ethically sourced materials.</p>
                 <h4>2. The Solution: Our Four Pillars</h4>
-                <p>EthicalGold is built on four foundational pillars that work in concert to create a secure, transparent, and ethical ecosystem...</p>
+                <p>EthicalGold is built on four foundational pillars that work in concert to create a secure, transparent, and ethical ecosystem: Immutable Traceability & Integrity, Empowering Artisanal Communities, Decentralized Governance & Community Ownership, and a Sustainable & Ethical Global Standard.</p>
+                <h4>3. The EGT Token</h4>
+                <p>The EGT token is the native utility token of the EthicalGold ecosystem. It is designed to be a consumptive asset, with its value derived from its utility within the platform, such as paying for verification services and participating in governance—not from speculation.</p>
+                <h4>4. Conclusion</h4>
+                <p>EthicalGold represents a paradigm shift in the precious metals industry. By marrying cutting-edge technology with a commitment to ethical principles, we can create a gold standard that is not only valuable but also virtuous. We invite you to join us in building a new future for gold.</p>
             `;
             const roadmapContent = `
                 <h3>Project Roadmap</h3>
