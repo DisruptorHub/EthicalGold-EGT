@@ -65,18 +65,10 @@
             margin-bottom: 0.5rem;
             color: #4dd8ff;
         }
-        .overlay-box p, .overlay-box ul {
+        .overlay-box p {
             font-size: 1rem;
             line-height: 1.6;
             text-align: left;
-        }
-        .overlay-box ul {
-            list-style-type: '— '; /* Modern bullet point style */
-            padding-left: 1rem;
-        }
-         .overlay-box li {
-            padding-left: 0.5rem;
-            margin-bottom: 0.5rem;
         }
         .overlay-box button {
              background-color: #4dd8ff;
@@ -128,7 +120,7 @@
                 <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
             </button>
             <button id="roadmap-icon" title="Roadmap">
-                <svg viewBox="0 0 24 24"><path d="M22.5 13.06c-.35 1.5-.98 2.87-1.84 4.09l.4 1.61c.1.41-.33.78-.74.61l-1.83-.78c-.75.39-1.56.69-2.41.9L15.5 22H8.5l-.48-2.42c-.85-.21-1.66-.51-2.41-.9l-1.83.78c-.41.17-.84-.2-.74-.61l.4-1.61c-.86-1.22-1.49-2.59-1.84-4.09H1V11h2.16c.35-1.5.98-2.87 1.84-4.09l-.4-1.61c-.1-.41.33-.78.74-.61l1.83.78c.75-.39 1.56-.69 2.41-.9L8.5 2h7l.48 2.42c.85.21 1.66.51 2.41.9l1.83-.78c.41-.17.84.2.74.61l-.4 1.61c.86 1.22 1.49 2.59 1.84 4.09H23v2.06h-2.5zm-10.5-2.06c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.29-6.29L22 12V6z"/></svg>
             </button>
              <button id="community-icon" title="Community">
                 <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
@@ -181,10 +173,10 @@
 
             const pillarMeshes = [];
             const pillarInfos = {
-                "Immutable Traceability & Integrity": { type: 'pillar', content: `<h3>Immutable Traceability & Integrity</h3><p>Our authentication platform, EthicalGold, uses a dual QR code and NFC chip on a secure, tamper-evident physical tag. This tag serves as a secure bridge to an immutable blockchain ledger, providing an unchangeable and transparent record of every gram of gold from its origin. This ensures the integrity of the supply chain and provides buyers with indisputable proof of ethical sourcing, making EGT the standard for trustworthy gold.</p>` },
-                "Empowering Artisanal Communities": { type: 'pillar', content: `<h3>Empowering Artisanal Communities</h3><p>A core function of EthicalGold is to directly uplift artisanal miners. Through secure and fair payment rails, and by providing essential tools and training, EGT empowers these communities economically, fostering social impact that adds intrinsic value to the gold and the token itself. Our tokenomics incentivize usage, not long-term holding, ensuring the platform's utility is the primary focus. The DApp includes features like 'Miner Spotlights,' where the community can see the faces and stories of the miners their investment is helping.</p>` },
-                "Decentralized Governance & Community Ownership": { type: 'pillar', content: `<h3>Decentralized Governance & Community Ownership</h3><p>The EthicalGold project is built on a foundation of decentralization, with control and decision-making gradually transitioning to the community through a DAO. This ensures long-term sustainability, community alignment, and provides token holders with a direct voice in the project's evolution, securing the future of their investment. We will not make promises about the project's future value based on the team's efforts, as the value will be a byproduct of the network's adoption and usage.</p>` },
-                "Sustainable & Ethical Global Standard": { type: 'pillar', content: `<h3>Sustainable & Ethical Global Standard</h3><p>EthicalGold is committed to responsible practices that benefit both people and the planet. By championing ethical sourcing, EGT aims to become the global standard for responsible gold, integrating with a broader ecosystem of ethical goods and positioning the token as a leader in sustainable commerce. We will only source gold from partners who adhere to international standards and the African Union's Pan-African ResourceReporting Code (PARC).</p>` },
+                "Immutable Traceability & Integrity": { type: 'pillar', content: `<h3>Immutable Traceability & Integrity</h3><p>Our authentication platform, EthicalGold, uses a dual QR code and NFC chip on a secure, tamper-evident physical tag...</p>` },
+                "Empowering Artisanal Communities": { type: 'pillar', content: `<h3>Empowering Artisanal Communities</h3><p>A core function of EthicalGold is to directly uplift artisanal miners through secure and fair payment rails...</p><ul><li>Secure and fair payment rails.</li><li>Providing essential tools and training.</li><li>'Miner Spotlights' in our DApp to share the stories of those you support.</li></ul>` },
+                "Decentralized Governance & Community Ownership": { type: 'pillar', content: `<h3>Decentralized Governance & Community Ownership</h3><p>The EthicalGold project is built on a foundation of decentralization, with control and decision-making gradually transitioning to the community through a DAO, giving token holders a direct voice in the project's evolution.</p>` },
+                "Sustainable & Ethical Global Standard": { type: 'pillar', content: `<h3>Sustainable & Ethical Global Standard</h3><p>We are committed to responsible practices that benefit both people and the planet. By championing ethical sourcing, EGT aims to become the global standard for responsible gold, partnering only with those who adhere to the highest international standards.</p>` },
             };
             
             const constellationShapes = [
@@ -244,15 +236,11 @@
             const whitePaperContent = `
                 <h3>EthicalGold (EGT) White Paper</h3>
                 <h4>Abstract</h4>
-                <p>EthicalGold (EGT) is a decentralized protocol designed to bring unparalleled transparency, traceability, and ethical accountability to the global gold supply chain. By leveraging a unique dual-authentication system combining secure, tamper-evident physical tags (NFC/QR) with an immutable blockchain ledger, EGT provides a verifiable record of gold's journey from mine to market. Our mission is to empower consumers, validate ethical sourcing, and create a new global standard for responsible gold.</p>
+                <p>EthicalGold (EGT) is a decentralized protocol designed to bring unparalleled transparency, traceability, and ethical accountability to the global gold supply chain...</p>
                 <h4>1. Introduction</h4>
-                <p>The traditional gold market, while valuable, is plagued by opacity. Consumers and investors have limited visibility into a gold bar's true origin, often unknowingly contributing to unethical mining practices, environmental damage, and illicit trade. This lack of transparency undermines trust and prevents true value from being assigned to ethically sourced materials.</p>
+                <p>The traditional gold market, while valuable, is plagued by opacity. Consumers and investors have limited visibility into a gold bar's true origin...</p>
                 <h4>2. The Solution: Our Four Pillars</h4>
-                <p>EthicalGold is built on four foundational pillars that work in concert to create a secure, transparent, and ethical ecosystem: Immutable Traceability & Integrity, Empowering Artisanal Communities, Decentralized Governance & Community Ownership, and a Sustainable & Ethical Global Standard.</p>
-                <h4>3. The EGT Token</h4>
-                <p>The EGT token is the native utility token of the EthicalGold ecosystem. It is designed to be a consumptive asset, with its value derived from its utility within the platform, such as paying for verification services and participating in governance—not from speculation.</p>
-                <h4>4. Conclusion</h4>
-                <p>EthicalGold represents a paradigm shift in the precious metals industry. By marrying cutting-edge technology with a commitment to ethical principles, we can create a gold standard that is not only valuable but also virtuous. We invite you to join us in building a new future for gold.</p>
+                <p>EthicalGold is built on four foundational pillars that work in concert to create a secure, transparent, and ethical ecosystem...</p>
             `;
             const roadmapContent = `
                 <h3>Project Roadmap</h3>
@@ -367,4 +355,6 @@
 </body>
 </html>
 ```
+
+
 
